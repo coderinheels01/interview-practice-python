@@ -86,6 +86,9 @@ def circles_belong_to_single_group(circles):
 
 # ==================== TRACE THROUGH EXAMPLE ====================
 """
+
+What is Union Find? - https://www.youtube.com/watch?v=ayW5B2W9hfo
+
 Example: [(0, 0, 2), (3, 0, 2), (6, 0, 2), (9, 0, 2)]
 
 A overlaps B
