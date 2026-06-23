@@ -13,6 +13,7 @@ class UnionFind:
     Two operations:
     1. find(x) - Find which group/component x belongs to
     2. union(x, y) - Merge the groups of x and y
+    https://www.youtube.com/watch?v=ayW5B2W9hfo
     """
 
     def __init__(self, n: int):
