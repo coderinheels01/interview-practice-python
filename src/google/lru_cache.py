@@ -1,3 +1,73 @@
+# =============================================================================
+# PROBLEM: LRU Cache with Even-Score Eviction Policy
+# =============================================================================
+# Design a cache that stores key→content pairs up to a fixed capacity.
+# When the cache is full and a new key needs to be inserted, evict the entry
+# whose access score is even AND whose last_accessed timestamp is the oldest
+# among all even-scored entries.
+#
+# Each entry tracks a `score` that increments on every put (update) or get.
+# A freshly inserted key starts at score 0 (even), making it immediately
+# eligible for eviction if needed.
+#
+# -----------------------------------------------------------------------------
+# DATA STRUCTURES
+# -----------------------------------------------------------------------------
+# 1. dict[int, Entry]  (self.cache)
+#    - Main key→Entry store. O(1) average lookup, insert, delete.
+#
+# 2. min-heap of (score, last_accessed, key)  (self.even_score_entries)
+#    - Tracks entries whose score was even at the time of the push.
+#    - Min-heap ordering: smallest score first; ties broken by oldest
+#      last_accessed timestamp (smallest float wins).
+#    - Uses a *lazy-deletion* strategy: stale entries (whose score or
+#      last_accessed no longer matches the live entry) are left in the heap
+#      and skipped at eviction time rather than being removed eagerly.
+#
+# -----------------------------------------------------------------------------
+# STEP-BY-STEP FLOW
+# -----------------------------------------------------------------------------
+# put(key, content):
+#   1. If the key already exists → update content, increment score,
+#      refresh last_accessed. If the new score is even, push a fresh
+#      heap entry.
+#   2. If the key is new and the cache is at capacity → call _evict_entry()
+#      to free a slot, then insert the new Entry with score=0.
+#      Score 0 is even, so a heap entry is pushed immediately.
+#
+# get(key) → Entry | None:
+#   1. Look up the key in the dict. If absent, return None.
+#   2. Increment score and refresh last_accessed.
+#   3. If the new score is even, push a heap entry for potential future
+#      eviction.
+#   4. Return the Entry.
+#
+# _evict_entry():
+#   1. Pop from the min-heap (lowest score, oldest timestamp).
+#   2. Validate the popped entry: confirm the live Entry in self.cache
+#      still has the exact same score AND last_accessed. If not, the
+#      heap entry is stale (the entry was accessed again since the push)
+#      → discard and pop the next one.
+#   3. Once a valid entry is found, delete it from self.cache.
+#
+# -----------------------------------------------------------------------------
+# WHY LAZY DELETION?
+# -----------------------------------------------------------------------------
+# Eagerly removing a heap entry when a key's score changes would require
+# either a heap decrease-key operation (not supported by Python's heapq) or
+# maintaining a separate index — both add complexity. Lazy deletion keeps the
+# code simple: stale entries are cheap to skip and each entry is popped at
+# most once across all operations, preserving O(log n) amortized eviction cost.
+#
+# -----------------------------------------------------------------------------
+# COMPLEXITY SUMMARY
+# -----------------------------------------------------------------------------
+# put:          O(log n) amortized  |  O(1) space
+# get:          O(log n)            |  O(1) space
+# _evict_entry: O(log n) amortized  |  O(1) space
+# Overall space: O(n) for n = max_size (cache dict + heap entries)
+# =============================================================================
+
 import time
 import heapq
 
