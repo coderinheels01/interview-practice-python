@@ -1,39 +1,4 @@
-# =============================================================================
-# Consecutive Subsequence
-#
-# Write a function which, given an array of integers, returns the length of the
-# longest subsequence where every next value is 1 bigger than the previous one.
-# Subsequence might not be consecutive, but must be in the same order as the
-# given array.
-#
-# Example:
-#   [3, 1, 2, 3, 4]  -> 4  (subsequence: 1, 2, 3, 4)
-#   [1, 2, 3, 4, 5]  -> 5  (entire array)
-#   [6, 5, 4, 3, 2]  -> 1  (no increasing consecutive pair)
-#
-# Approach: Dynamic Programming - https://www.youtube.com/watch?v=cjWnW0hdF1Y&t=2s
-#   - dp[i] = length of the longest valid subsequence ending at index i
-#   - For each element i, look back at all j < i where nums[i] == nums[j] + 1
-#     and extend that chain by 1
-#   - Time:  O(n^2)
-#   - Space: O(n)
-# =============================================================================
 
-def longest_consecutive_subsequence_dp(nums: list[int]) -> int:
-    n = len(nums)
-
-    # dp[i] stores the length of the longest consecutive subsequence ending at i
-    dp: list[int] = [1] * n  # every element is at minimum a subsequence of length 1
-
-    for i in range(1, n):
-        for j in range(i):
-            # check if nums[i] is exactly 1 more than nums[j],
-            # meaning it can extend the subsequence ending at j
-            if nums[i] == nums[j] + 1:
-                dp[i] = max(dp[i], dp[j] + 1)
-
-    # the answer is the maximum length found across all ending positions
-    return max(dp)
 
 # =============================================================================
 # Optimized approach using a hash map
@@ -65,9 +30,26 @@ def longest_consecutive_subsequence_optimized(nums: list[int]) -> int:
 
 print()  # blank line separator between the two problems
 
+
 # =============================================================================
-# Below: original problem — longest subsequence where each next value is
-# exactly 1 larger, solved with backward DP (forward pass variant above).
+# Consecutive Subsequence
+#
+# Write a function which, given an array of integers, returns the length of the
+# longest subsequence where every next value is 1 bigger than the previous one.
+# Subsequence might not be consecutive, but must be in the same order as the
+# given array.
+#
+# Example:
+#   [3, 1, 2, 3, 4]  -> 4  (subsequence: 1, 2, 3, 4)
+#   [1, 2, 3, 4, 5]  -> 5  (entire array)
+#   [6, 5, 4, 3, 2]  -> 1  (no increasing consecutive pair)
+#
+# Approach: Dynamic Programming - https://www.youtube.com/watch?v=cjWnW0hdF1Y&t=2s
+#   - dp[i] = length of the longest valid subsequence ending at index i
+#   - For each element i, look back at all j < i where nums[i] == nums[j] + 1
+#     and extend that chain by 1
+#   - Time:  O(n^2)
+#   - Space: O(n)
 # =============================================================================
 
 def longest_subsequent_number_dynamic_programming(nums: list[int]) -> int:
