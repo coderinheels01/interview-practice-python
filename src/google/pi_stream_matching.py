@@ -31,20 +31,103 @@
 # TIME COMPLEXITY:  O(n) — single pass through the stream, O(1) work per digit
 # SPACE COMPLEXITY: O(1) — no storage of stream digits; only a fixed number of
 #                          scalar variables regardless of stream length
+#
+# Note: `k` (number of digits in the index) is NOT stored as a variable.
+# next_power_of_10 already encodes it implicitly: next_power_of_10 = 10^k,
+# so % next_power_of_10 achieves the same mask without needing k explicitly.
+#
+# =============================================================================
+# WALKTHROUGH: Single-digit indices (k=1, modulus=10)
+# =============================================================================
+# Pi digits (1-indexed): 1, 4, 1, 5, 9, 2, 6, 5, 3, ...
+#
+# index=1, next_power_of_10=10
+#   digit = 1
+#   window = (0 * 10 + 1) % 10 = 1
+#   1 == 1?  ✓  MATCH
+#
+# index=2, next_power_of_10=10
+#   digit = 4
+#   window = (1 * 10 + 4) % 10 = 4
+#   4 == 2?  ✗
+#
+# index=3, next_power_of_10=10
+#   digit = 1
+#   window = (4 * 10 + 1) % 10 = 1
+#   1 == 3?  ✗
+#
+# index=4, next_power_of_10=10
+#   digit = 5
+#   window = (1 * 10 + 5) % 10 = 5
+#   5 == 4?  ✗
+#
+# index=5, next_power_of_10=10
+#   digit = 9
+#   window = (5 * 10 + 9) % 10 = 9
+#   9 == 5?  ✗
+#
+# The % 10 chops everything except the last 1 digit, so window always holds
+# exactly the most recent digit. Only index 1 matched (pi starts with 1).
+#
+# =============================================================================
+# WALKTHROUGH: Crossing into two-digit indices (k=1→2, modulus=10→100)
+# =============================================================================
+# Pi digits around the boundary (positions 8, 9, 10, 11): 5, 3, 5, 8
+#
+# index=8,  next_power_of_10=10  (still single-digit window)
+#   digit = 5
+#   window = (prev * 10 + 5) % 10 = 5
+#   5 == 8?  ✗
+#
+# index=9,  next_power_of_10=10
+#   digit = 3
+#   window = (5 * 10 + 3) % 10 = 3
+#   3 == 9?  ✗
+#
+# ── BOUNDARY: index hits 10 → next_power_of_10 grows from 10 to 100 ─────────
+#
+# index=10, next_power_of_10=100  (window now keeps last 2 digits)
+#   digit = 5
+#   window = (3 * 10 + 5) % 100 = 35
+#   35 == 10?  ✗
+#
+#   Notice: % 100 lets BOTH digits through instead of chopping to one.
+#   window now holds the last two stream digits as a 2-digit number.
+#
+# index=11, next_power_of_10=100
+#   digit = 8
+#   window = (35 * 10 + 8) % 100 = 358 % 100 = 58
+#   58 == 11?  ✗
+#
+#   358 % 100 = 58 — the hundreds digit is discarded, last 2 digits remain.
+#
+# The modulus acts as a bitmask for decimal digits:
+#   % 10   → keep last 1 digit
+#   % 100  → keep last 2 digits
+#   % 1000 → keep last 3 digits  (kicks in at index 100)
 # =============================================================================
 def find_matching_positions(pi_digit_stream: list[int]):
     current_index: int = 0
     window_value: int = 0
+    # next_power_of_10 serves as the modulus — it equals 10^k at all times.
+    # When current_index crosses a power-of-10 boundary (9→10, 99→100, …),
+    # k increments by 1 and next_power_of_10 grows by 10x to match.
     next_power_of_10: int = 10
-    k: int = 1
 
     for digit in pi_digit_stream:
         current_index += 1
+
+        # Grow the window size when the index gains a new digit
         if current_index == next_power_of_10:
-            k += 1
-            next_power_of_10 *= 10
-        modulus: int = 10**k
-        window_value = (window_value * 10 + digit) % modulus
+            next_power_of_10 *= 10  # next_power_of_10 == 10^k after this
+
+        # Slide the window forward:
+        #   * multiply by 10        → shift existing digits left one place
+        #   * add digit             → append the new digit on the right
+        #   * % next_power_of_10   → keep only the last k digits
+        # next_power_of_10 == 10^k, so no need for a separate modulus variable
+        window_value = (window_value * 10 + digit) % next_power_of_10
+
         if window_value == current_index:
             print(f"current_index {current_index} and window_value {window_value}")
 

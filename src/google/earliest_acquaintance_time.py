@@ -17,13 +17,6 @@ Add Friend - A and B become friends Remove Friend - If A and B are friends, unfr
 Given this, find the earliest timestamp when all of them become friends.
 
 
-Python
-Save
-
-1234567
-Output
-
-Run Code
 
 """
 
