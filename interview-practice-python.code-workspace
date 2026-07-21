@@ -4,5 +4,16 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll.ruff": "explicit",
+			"source.organizeImports.ruff": "explicit"
+		},
+		"[python]": {
+			"editor.defaultFormatter": "charliermarsh.ruff"
+		},
+		"ruff.enable": true,
+		"python.analysis.typeCheckingMode": "basic"
+	}
 }
