@@ -92,10 +92,51 @@ def word_ladder_bfs(begin_word: str, end_word: str, word_list: list[str]) -> tup
     return (result, count)
 
 
+"""
+
+space optimized method by saving path, so result doesn't need to be stored in a 
+separate list andresult.reverse() isn't needed
+
+# Word Ladder BFS trace: `hot` → `cog`
+
+| Step | Queue before pop | We pop | Word | Check neighbors of | New words added to visited |
+|---|---|---|---|---|---|
+| 1 | `[ ["hot"] ]` | `["hot"]` | `hot` | `hot`'s neighbors: `dot`, `lot` | `dot`, `lot` |
+| 2 | `[ ["hot","dot"], ["hot","lot"] ]` | `["hot","dot"]` | `dot` | `dot`'s neighbors: `hot`, `lot`, `dog` | `dog` (`hot`, `lot` already visited) |
+| 3 | `[ ["hot","lot"], ["hot","dot","dog"] ]` | `["hot","lot"]` | `lot` | `lot`'s neighbors: `hot`, `dot`, `log` | `log` (`hot`, `dot` already visited) |
+| 4 | `[ ["hot","dot","dog"], ["hot","lot","log"] ]` | `["hot","dot","dog"]` | `dog` | `dog`'s neighbors: `dot`, `cog`, `log` | `cog` (`dot`, `log` already visited) |
+| 5 | `[ ["hot","lot","log"], ["hot","dot","dog","cog"] ]` | `["hot","lot","log"]` | `log` | `log`'s neighbors: `lot`, `dog`, `cog` | *(none — all three already visited)* |
+| 6 | `[ ["hot","dot","dog","cog"] ]` | `["hot","dot","dog","cog"]` | `cog` | `cog == end_word` → return path | — |
+
+**Result:** `["hot", "dot", "dog", "cog"]`
+"""
+def word_ladder_bfs_space_optimized(begin_word: str, end_word: str, word_list: list[str]) -> tuple[list[str], int]:
+    neighbors:defaultdict[str, list[str]] = build_neighbors(begin_word=begin_word, word_list=word_list)
+    queue:deque[list[str]] = deque([[begin_word]])
+    visited: set[str] = {begin_word}
+    
+
+    while queue:
+        path: list[str] = queue.popleft()
+        word: str = path[-1]
+
+        if word == end_word:
+            return [path, len(path)] 
+
+        for neighbor in neighbors[word]:
+            if neighbor in word_list and neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(path + [neighbor])
+    
+    return []
+
+
+        
 
 
 def solve():
     word_list: list[str] = ["hot","dot","dog","lot","log","cog"]
     print(f"total words and count = {word_ladder_bfs(begin_word="hot", end_word ="cog", word_list=word_list)}")
+    print(f"total words and count space optimized= {word_ladder_bfs_space_optimized(begin_word="hot", end_word ="cog", word_list=word_list)}")
 
 solve()
