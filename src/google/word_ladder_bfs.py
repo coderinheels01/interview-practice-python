@@ -24,12 +24,13 @@ beginWord != endWord
 All words in wordList are unique
 """
 
-from collections import defaultdict
 import string
-import pprint
-from collections import deque
+from collections import defaultdict, deque
 
-def build_neighbors(begin_word: str, word_list: list[str]) -> defaultdict[str, list[str]]:
+
+def build_neighbors(
+    begin_word: str, word_list: list[str]
+) -> defaultdict[str, list[str]]:
     # For each word, try swapping every position with every letter a-z.
     # If the resulting word exists in the list (and isn't the same word), it's a neighbor.
     # This builds an adjacency map: word → [words reachable in one letter change]
@@ -39,20 +40,24 @@ def build_neighbors(begin_word: str, word_list: list[str]) -> defaultdict[str, l
     for word in word_list:
         for i in range(len(word)):
             for c in string.ascii_lowercase:
-                new_word: str = word[:i] + c + word[i + 1:]
+                new_word: str = word[:i] + c + word[i + 1 :]
                 if new_word in word_list and new_word != word:
                     neighbors[word].append(new_word)
 
     return neighbors
 
 
-def word_ladder_bfs(begin_word: str, end_word: str, word_list: list[str]) -> tuple[list[str], int]:
+def word_ladder_bfs(
+    begin_word: str, end_word: str, word_list: list[str]
+) -> tuple[list[str], int]:
     # If end_word isn't reachable at all, return early
     if end_word not in word_list:
         return 0
 
     # Pre-build the neighbor graph so BFS just follows edges
-    neighbors: defaultdict[str, list[str]] = build_neighbors(begin_word=begin_word, word_list=word_list)
+    neighbors: defaultdict[str, list[str]] = build_neighbors(
+        begin_word=begin_word, word_list=word_list
+    )
 
     # Each queue entry is (word, steps_taken_to_reach_it)
     # begin_word is step 0 — we haven't transformed anything yet
@@ -110,33 +115,40 @@ separate list andresult.reverse() isn't needed
 
 **Result:** `["hot", "dot", "dog", "cog"]`
 """
-def word_ladder_bfs_space_optimized(begin_word: str, end_word: str, word_list: list[str]) -> tuple[list[str], int]:
-    neighbors:defaultdict[str, list[str]] = build_neighbors(begin_word=begin_word, word_list=word_list)
-    queue:deque[list[str]] = deque([[begin_word]])
+
+
+def word_ladder_bfs_space_optimized(
+    begin_word: str, end_word: str, word_list: list[str]
+) -> tuple[list[str], int]:
+    neighbors: defaultdict[str, list[str]] = build_neighbors(
+        begin_word=begin_word, word_list=word_list
+    )
+    queue: deque[list[str]] = deque([[begin_word]])
     visited: set[str] = {begin_word}
-    
 
     while queue:
         path: list[str] = queue.popleft()
         word: str = path[-1]
 
         if word == end_word:
-            return [path, len(path)] 
+            return [path, len(path)]
 
         for neighbor in neighbors[word]:
             if neighbor in word_list and neighbor not in visited:
                 visited.add(neighbor)
                 queue.append(path + [neighbor])
-    
+
     return []
 
 
-        
-
-
 def solve():
-    word_list: list[str] = ["hot","dot","dog","lot","log","cog"]
-    print(f"total words and count = {word_ladder_bfs(begin_word="hot", end_word ="cog", word_list=word_list)}")
-    print(f"total words and count space optimized= {word_ladder_bfs_space_optimized(begin_word="hot", end_word ="cog", word_list=word_list)}")
+    word_list: list[str] = ["hot", "dot", "dog", "lot", "log", "cog"]
+    print(
+        f"total words and count = {word_ladder_bfs(begin_word='hot', end_word='cog', word_list=word_list)}"
+    )
+    print(
+        f"total words and count space optimized= {word_ladder_bfs_space_optimized(begin_word='hot', end_word='cog', word_list=word_list)}"
+    )
+
 
 solve()
