@@ -1,3 +1,5 @@
+# Reference: https://www.youtube.com/watch?v=EgI5nU9etnU
+#
 # =============================================================================
 # Course Schedule (LeetCode #207)
 #
