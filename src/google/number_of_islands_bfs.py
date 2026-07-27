@@ -1,32 +1,34 @@
-# Number of Islands (LeetCode #200)
-#
-# You're given a 2D grid of '1's (land) and '0's (water). An island is a group
-# of '1's connected horizontally or vertically (not diagonally). Count the
-# total number of islands.
-#
-# Example:
-#   1 1 0 0 0
-#   1 1 0 0 0
-#   0 0 1 0 0
-#   0 0 0 1 1
-#   Output: 3
-#   — the top-left 2×2 block of land is one island, the single 1 in the middle
-#     is a second island, and the two connected 1s in the bottom-right are a
-#     third island.
-#
-# Approach — BFS flood fill:
-# Scan every cell. When we hit an unvisited '1', we've found a new island.
-# Increment the counter, then BFS outward from that cell to mark every
-# connected land cell as visited ("-1"). That way the outer scan never
-# double-counts cells that belong to the same island.
-#
-# Complexity:
-#   Time:  O(R * C) — every cell is enqueued and dequeued at most once.
-#   Space: O(min(R, C)) — the BFS queue holds at most the cells on the current
-#          "frontier", which in the worst case (a fully filled grid) is bounded
-#          by the shorter dimension due to the BFS wavefront shape.
-#          The visited marker is stored in-place on the grid itself (no extra
-#          visited set needed), so no additional O(R*C) space is used.
+"""
+Number of Islands (LeetCode #200)
+
+You're given a 2D grid of '1's (land) and '0's (water). An island is a group
+of '1's connected horizontally or vertically (not diagonally). Count the
+total number of islands.
+
+Example:
+  1 1 0 0 0
+  1 1 0 0 0
+  0 0 1 0 0
+  0 0 0 1 1
+  Output: 3
+  — the top-left 2×2 block of land is one island, the single 1 in the middle
+    is a second island, and the two connected 1s in the bottom-right are a
+    third island.
+
+Approach — BFS flood fill:
+Scan every cell. When we hit an unvisited '1', we've found a new island.
+Increment the counter, then BFS outward from that cell to mark every
+connected land cell as visited ("-1"). That way the outer scan never
+double-counts cells that belong to the same island.
+
+Complexity:
+  Time:  O(R * C) — every cell is enqueued and dequeued at most once.
+  Space: O(min(R, C)) — the BFS queue holds at most the cells on the current
+         "frontier", which in the worst case (a fully filled grid) is bounded
+         by the shorter dimension due to the BFS wavefront shape.
+         The visited marker is stored in-place on the grid itself (no extra
+         visited set needed), so no additional O(R*C) space is used.
+"""
 
 from collections import deque
 
