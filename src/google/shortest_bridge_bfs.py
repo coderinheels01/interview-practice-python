@@ -43,7 +43,7 @@ def shortest_bridge_bfs(grid: list[list[int]]) -> int:
     visited: set[list[tuple[int, int]]] = set()
     directions: list[list[int, int]] = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
-    def bfs(x: int, y: int):
+    def dfs(x: int, y: int):
         # Step 2: Enqueue this cell as a BFS source (distance 0 from island 1)
         # and mark it visited so BFS won't cross back into island 1.
         queue.append((x, y, 0))
@@ -53,39 +53,35 @@ def shortest_bridge_bfs(grid: list[list[int]]) -> int:
             new_x, new_y = x + d1, y + d2
             if 0 <= new_x < n and 0 <= new_y < n:
                 if grid[new_x][new_y] == 1 and (new_x, new_y) not in visited:
-                    bfs(new_x, new_y)
+                    dfs(new_x, new_y)
+
+    def bfs():
+        # Step 4: Multi-source BFS from every cell of island 1 simultaneously.
+        # We expand outward through water (0-cells), counting steps.
+        while queue:
+            x, y, count = queue.popleft()
+            for d1, d2 in directions:
+                new_x, new_y = x + d1, y + d2
+                if 0 <= new_x < n and 0 <= new_y < n and (new_x, new_y) not in visited:
+                    if grid[new_x][new_y] == 0:
+                        # Step 5: Still water — keep expanding, incrementing the
+                        # bridge length counter.
+                        queue.append((new_x, new_y, count + 1))
+                    else:
+                        # Step 6: Hit a 1-cell that isn't in visited → it belongs
+                        # to island 2. Return count as the minimum bridge length.
+                        return count
+
+            # Step 7: Mark processed water cells visited to avoid revisiting.
+            visited.add((x, y))
 
     # Step 1: Scan until we find the first 1-cell, then DFS to mark the
     # entire first island and seed the BFS queue with all its cells.
-    found: bool = False
     for i in range(n):
         for j in range(n):
             if grid[i][j] == 1 and (i, j) not in visited:
-                bfs(i, j)
-                found = True
-                break
-
-        if found:
-            break
-
-    # Step 4: Multi-source BFS from every cell of island 1 simultaneously.
-    # We expand outward through water (0-cells), counting steps.
-    while queue:
-        x, y, count = queue.popleft()
-        for d1, d2 in directions:
-            new_x, new_y = x + d1, y + d2
-            if 0 <= new_x < n and 0 <= new_y < n and (new_x, new_y) not in visited:
-                if grid[new_x][new_y] == 0:
-                    # Step 5: Still water — keep expanding, incrementing the
-                    # bridge length counter.
-                    queue.append((new_x, new_y, count + 1))
-                else:
-                    # Step 6: Hit a 1-cell that isn't in visited → it belongs
-                    # to island 2. Return count as the minimum bridge length.
-                    return count
-
-        # Step 7: Mark processed water cells visited to avoid revisiting.
-        visited.add((x, y))
+                dfs(i, j)
+                return bfs()
 
     return 0
 
