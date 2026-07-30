@@ -97,6 +97,8 @@ Approach: Dijkstra-style relaxation (multi-source, distance-based)
 Time Complexity:  O(m * n) — each cell can be re-enqueued, but only when
                   a shorter path is found, which happens at most once per cell.
 Space Complexity: O(m * n) — for the queue and the in-place distance matrix.
+
+Reference: https://www.youtube.com/watch?v=CTqBOiciqc4
 """
 
 
