@@ -27,7 +27,9 @@ Time Complexity:  O(n²)
 Space Complexity: O(n²)
   The visited set and the BFS queue each hold at most n² entries.
 
-Reference: https://www.youtube.com/watch?v=6lH4nO3JfLk
+References:
+  - https://www.youtube.com/watch?v=6lH4nO3JfLk
+  - https://www.youtube.com/watch?v=tyA-WSpxytM
 """
 
 from collections import deque
