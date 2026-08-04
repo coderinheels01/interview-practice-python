@@ -89,6 +89,8 @@ Steps:
 Complexity:
     Time:  O(N log N), because sorting both arrays dominates the O(N) sweep.
     Space: O(N), because the two arrays contain 2N values in total.
+
+https://www.youtube.com/watch?v=FdzJmTCVyJU
 """
 
 import heapq
