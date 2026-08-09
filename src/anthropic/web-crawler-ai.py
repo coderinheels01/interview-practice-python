@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 # Step 4 + Step 10: Link extraction with URL normalization           #
 # ------------------------------------------------------------------ #
 
+
 def get_links(html, base_url, base_domain):
     # parse the raw HTML so we can search through it
     soup = BeautifulSoup(html, "html.parser")
@@ -60,6 +61,7 @@ def get_links(html, base_url, base_domain):
 # cache robots.txt per domain so we only fetch it once
 robots_cache = {}
 
+
 async def is_allowed(session, url):
     parsed = urlparse(url)
 
@@ -106,6 +108,7 @@ domain_last_request = {}
 # and both think they are allowed to go, breaking the rate limit
 rate_lock = asyncio.Lock()
 
+
 async def rate_limit(url, requests_per_second):
     domain = urlparse(url).netloc
 
@@ -141,6 +144,7 @@ async def rate_limit(url, requests_per_second):
 # with timeout handling and redirect loop detection                   #
 # ------------------------------------------------------------------ #
 
+
 async def crawl_page(session, url, depth, base_domain, semaphore, requests_per_second):
     # check robots.txt before doing anything
     if not await is_allowed(session, url):
@@ -156,7 +160,6 @@ async def crawl_page(session, url, depth, base_domain, semaphore, requests_per_s
     async with semaphore:
         try:
             async with session.get(url, allow_redirects=True) as response:
-
                 # step 9: redirect loop detection
                 # response.history = every url visited along the redirect chain
                 # response.url     = the final url we landed on
@@ -196,7 +199,14 @@ async def crawl_page(session, url, depth, base_domain, semaphore, requests_per_s
 # Steps 1-3 + 7: BFS crawler                                         #
 # ------------------------------------------------------------------ #
 
-async def crawl(start_url, max_depth, requests_per_second=2.0, max_concurrent=10, request_timeout=10.0):
+
+async def crawl(
+    start_url,
+    max_depth,
+    requests_per_second=2.0,
+    max_concurrent=10,
+    request_timeout=10.0,
+):
     # deque for BFS queue
     # we store tuples of (url, depth) so we always know how deep we are
     # deque is used because removing from the front of a list is slow
@@ -241,13 +251,11 @@ async def crawl(start_url, max_depth, requests_per_second=2.0, max_concurrent=10
         connector=connector,
         max_redirects=5,
     ) as session:
-
         # list to keep track of all currently running tasks
         tasks = []
 
         # keep going as long as queue has urls OR tasks are still running
         while queue or tasks:
-
             # drain the entire queue and launch every url as a concurrent task
             while queue:
                 url, depth = queue.popleft()
@@ -258,7 +266,9 @@ async def crawl(start_url, max_depth, requests_per_second=2.0, max_concurrent=10
                 # create_task launches crawl_page concurrently
                 # it does not wait for it to finish, it just starts it
                 task = asyncio.create_task(
-                    crawl_page(session, url, depth, base_domain, semaphore, requests_per_second)
+                    crawl_page(
+                        session, url, depth, base_domain, semaphore, requests_per_second
+                    )
                 )
                 # store task with its depth so we know what level it was at
                 tasks.append((task, depth))
@@ -305,13 +315,15 @@ async def crawl(start_url, max_depth, requests_per_second=2.0, max_concurrent=10
 # ------------------------------------------------------------------ #
 
 if __name__ == "__main__":
-    result = asyncio.run(crawl(
-        start_url="https://ogee.com",
-        max_depth=2,
-        requests_per_second=2.0,
-        max_concurrent=10,
-        request_timeout=10.0
-    ))
+    result = asyncio.run(
+        crawl(
+            start_url="https://ogee.com",
+            max_depth=2,
+            requests_per_second=2.0,
+            max_concurrent=10,
+            request_timeout=10.0,
+        )
+    )
 
     for page, links in result.items():
         print(f"\n{page}")

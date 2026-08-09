@@ -76,12 +76,12 @@ from collections import deque
 def shortest_path_with_budget_elimination_bfs(grid: list[list[int]], k: int) -> int:
     if grid == [[0]]:
         return 0
-    queue: deque[tuple[int, int, int, int]] = deque([(0, 0, 0,k)])
+    queue: deque[tuple[int, int, int, int]] = deque([(0, 0, 0, k)])
     visited: set[tuple[int, int, int]] = set([(0, 0, k)])
     dist: list[int] = [[0, 1], [0, -1], [1, 0], [-1, 0]]
     n: int = len(grid)
     m: int = len(grid[0])
-    
+
     while queue:
         row, col, count, budget = queue.popleft()
         if row == (n - 1) and col == (m - 1):
@@ -90,11 +90,14 @@ def shortest_path_with_budget_elimination_bfs(grid: list[list[int]], k: int) -> 
             new_row = row + d1
             new_col = col + d2
             if 0 <= new_row < n and 0 <= new_col < m:
-                if grid[new_row][new_col] == 0 and (new_row, new_col, budget) not in visited:
-                    queue.append((new_row, new_col, count +1, budget))
+                if (
+                    grid[new_row][new_col] == 0
+                    and (new_row, new_col, budget) not in visited
+                ):
+                    queue.append((new_row, new_col, count + 1, budget))
                     visited.add((new_row, new_col, budget))
-                elif budget > 0 and (new_row, new_col, budget -1) not in visited:
-                    queue.append((new_row, new_col, count +1, budget - 1))
+                elif budget > 0 and (new_row, new_col, budget - 1) not in visited:
+                    queue.append((new_row, new_col, count + 1, budget - 1))
                     visited.add((new_row, new_col, budget - 1))
 
     return -1
@@ -135,13 +138,13 @@ import math
 #          worst case when the grid contains no obstacles.
 #   Space: O(m * n) for the recursion stack and current-path visited set.
 def shortest_path_with_budget_elimination_dfs(grid: list[list[int]], k: int) -> int:
-    n:int = len(grid)
-    m:int = len(grid[0])
+    n: int = len(grid)
+    m: int = len(grid[0])
     row, col = 0, 0
-    min_count:int = math.inf
-    visited: set[tuple[int, int]]= set()
+    min_count: int = math.inf
+    visited: set[tuple[int, int]] = set()
 
-    def dfs(row:int, col:int, budget:int, count:int) -> int:
+    def dfs(row: int, col: int, budget: int, count: int) -> int:
 
         # The position is outside the grid.
         if row < 0 or row >= n or col < 0 or col >= m:
@@ -164,20 +167,18 @@ def shortest_path_with_budget_elimination_dfs(grid: list[list[int]], k: int) -> 
 
         visited.add((row, col))
 
-        up_result = dfs(row+1, col, budget, count +1)
-        down_result = dfs(row-1, col, budget, count+1)
-        right_result = dfs(row, col+1, budget, count+1)
-        left_result = dfs(row, col-1, budget, count+1)
+        up_result = dfs(row + 1, col, budget, count + 1)
+        down_result = dfs(row - 1, col, budget, count + 1)
+        right_result = dfs(row, col + 1, budget, count + 1)
+        left_result = dfs(row, col - 1, budget, count + 1)
 
         visited.remove((row, col))
 
         return min(up_result, down_result, right_result, left_result)
 
-
     min_count = dfs(0, 0, k, 0)
 
     return -1 if min_count == math.inf else min_count
-
 
 
 def solve() -> None:
@@ -189,8 +190,12 @@ def solve() -> None:
         [0, 0, 0],
     ]
     k = 1
-    print(f"shortest path for grid {grid} with {k} budgets is {shortest_path_with_budget_elimination_bfs(grid, k)}")  # Expected: -1
-    print(f"shortest path for grid {grid} with {k} budgets is {shortest_path_with_budget_elimination_dfs(grid, k)}")  # Expected: -1
+    print(
+        f"shortest path for grid {grid} with {k} budgets is {shortest_path_with_budget_elimination_bfs(grid, k)}"
+    )  # Expected: -1
+    print(
+        f"shortest path for grid {grid} with {k} budgets is {shortest_path_with_budget_elimination_dfs(grid, k)}"
+    )  # Expected: -1
 
     grid = [
         [0, 1, 1],
@@ -198,8 +203,12 @@ def solve() -> None:
         [1, 0, 0],
     ]
     k = 1
-    print(f"shortest path for grid {grid} with {k} budgets is {shortest_path_with_budget_elimination_bfs(grid, k)}")  # Expected: -1
-    print(f"shortest path for grid {grid} with {k} budgets is {shortest_path_with_budget_elimination_dfs(grid, k)}")  # Expected: -1
+    print(
+        f"shortest path for grid {grid} with {k} budgets is {shortest_path_with_budget_elimination_bfs(grid, k)}"
+    )  # Expected: -1
+    print(
+        f"shortest path for grid {grid} with {k} budgets is {shortest_path_with_budget_elimination_dfs(grid, k)}"
+    )  # Expected: -1
 
 
 if __name__ == "__main__":

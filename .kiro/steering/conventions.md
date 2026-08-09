@@ -20,6 +20,5 @@ Always add type hints to all function signatures — parameters and return types
 
 Example:
 ```python
-def two_sum(nums: list[int], target: int) -> list[int]:
-    ...
+def two_sum(nums: list[int], target: int) -> list[int]: ...
 ```

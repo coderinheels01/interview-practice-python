@@ -56,27 +56,29 @@ Note:
     The index i provided to get(int i) and remove(int i) is guaranteed to be
     greater than or equal to 0.
 """
+
 from dataclasses import dataclass, field
+
 
 @dataclass
 class LinkedList:
-    linked_list: list[int] = field(default_factory=list, init= False)
+    linked_list: list[int] = field(default_factory=list, init=False)
 
-    def is_index_valid(self, index:int) -> bool:
+    def is_index_valid(self, index: int) -> bool:
         return index < len(self.linked_list)
 
     def get(self, index: int) -> int:
         if not self.is_index_valid(index=index):
             return -1
         return self.linked_list[index]
-    
-    def insertHead(self, val:int) -> None:
+
+    def insertHead(self, val: int) -> None:
         self.linked_list.insert(0, val)
-    
-    def insertTail(self, val:int) -> None:
+
+    def insertTail(self, val: int) -> None:
         self.linked_list.append(val)
-    
-    def remove(self, index:int) -> bool:
+
+    def remove(self, index: int) -> bool:
         if not self.is_index_valid(index=index):
             return False
 
@@ -86,7 +88,7 @@ class LinkedList:
 
     def getValues(self) -> list[int]:
         return self.linked_list.copy()
-        
+
 
 def solve():
     # Example 1: insert at the head and tail, then remove the middle node.
@@ -128,5 +130,5 @@ def solve():
     print(f"expected remove(5) = False, result = {linked_list.remove(5)}")
     print(f"expected values = [20], result = {linked_list.getValues()}")
 
-solve()
 
+solve()

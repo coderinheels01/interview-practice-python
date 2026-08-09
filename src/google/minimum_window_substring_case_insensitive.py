@@ -56,8 +56,10 @@ Important details:
 
 import math
 
-def get_index(c:str) -> int:
+
+def get_index(c: str) -> int:
     return ord(c.lower()) - ord("a")
+
 
 def minimum_window(s: str, t: str) -> str:
     """
@@ -85,44 +87,41 @@ def minimum_window(s: str, t: str) -> str:
         return ""
 
     # Step 1: Set up the frequency array and the two window pointers.
-    frequency: list[int] = [0] * 26 # frequency of characters where index is a-z
-    L:int = 0
-    R:int = 0
-    n:int = len(s)
-    min_window:int = math.inf
-    result: str= ""
-    missing:int = len(t)
+    frequency: list[int] = [0] * 26  # frequency of characters where index is a-z
+    L: int = 0
+    R: int = 0
+    n: int = len(s)
+    min_window: int = math.inf
+    result: str = ""
+    missing: int = len(t)
 
     # Step 2: Count every character required by t, ignoring case.
     for i in range(len(t)):
-        index:int = get_index(t[i])
+        index: int = get_index(t[i])
         frequency[index] += 1
 
     # Step 3: Expand the window by moving R through s.
     while R < n:
-
-        index:int = get_index(s[R])
+        index: int = get_index(s[R])
 
         # This character fills a requirement only when its count is positive.
         if frequency[index] > 0:
-            missing -=1
+            missing -= 1
 
         # Add s[R] to the current window.
         frequency[index] -= 1
 
         # Step 4: Once valid, shrink the window from the left.
         while missing == 0:
-
-            current = s[L:R+1]
+            current = s[L : R + 1]
 
             # Save this window if it is the smallest valid one seen so far.
             if len(current) < min_window:
                 min_window = len(current)
                 result = current
 
-
             # Remove s[L] and restore its count in the frequency array.
-            left_index:int = get_index(s[L])
+            left_index: int = get_index(s[L])
             frequency[left_index] += 1
 
             # A positive count means the window now lacks this required letter.
@@ -179,7 +178,10 @@ def minimum_window_hash_map(s: str, t: str) -> str:
         window[right_char] = window.get(right_char, 0) + 1
 
         # One required character frequency has now been completely satisfied.
-        if right_char in frequency_of_t and window[right_char] == frequency_of_t[right_char]:
+        if (
+            right_char in frequency_of_t
+            and window[right_char] == frequency_of_t[right_char]
+        ):
             have += 1
 
         # Step 4: While valid, save the result and shrink from the left.
@@ -187,7 +189,7 @@ def minimum_window_hash_map(s: str, t: str) -> str:
             # Store indexes when this is the smallest valid window so far.
             if (r - l + 1) < min_len:
                 result = [l, r]
-                min_len = (r - l + 1)
+                min_len = r - l + 1
 
             # Remove the left character using its lowercase dictionary key.
             left_char = s[l].lower()
@@ -195,16 +197,18 @@ def minimum_window_hash_map(s: str, t: str) -> str:
             window[left_char] = window.get(left_char, 0) - 1
 
             # The window is no longer valid if a required count falls too low.
-            if left_char in frequency_of_t and window[left_char] < frequency_of_t[left_char]:
+            if (
+                left_char in frequency_of_t
+                and window[left_char] < frequency_of_t[left_char]
+            ):
                 have -= 1
 
             l += 1
 
     # Step 5: Slice the original string to preserve its casing.
     left, right = result
-    return s[left:right+1]
+    return s[left : right + 1]
 
-    
 
 def solve():
     s: str = "xxAyzB"
@@ -236,5 +240,6 @@ def solve():
     # Expected Output: "Y"
     print(f"s = {s}, t = {t}, result = {minimum_window(s, t)!r}")
     print(f"s = {s}, t = {t}, result = {minimum_window_hash_map(s, t)!r}")
+
 
 solve()

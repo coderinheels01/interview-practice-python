@@ -5,13 +5,13 @@
 ### List
 **Initialize:**
 ```python
-my_list: list = []                                          # Empty list
-my_list: list[int] = [1, 2, 3]                            # List with elements
-my_list: list[int] = list()                               # Using constructor
-my_list: list[int] = list(range(5))                       # [0, 1, 2, 3, 4]
-my_list: list[int] = [0] * 5                              # [0, 0, 0, 0, 0] (repeated element)
-my_list: list[int] = [i for i in range(5)]               # List comprehension
-my_list: list[str] = []                                   # List of strings
+my_list: list = []  # Empty list
+my_list: list[int] = [1, 2, 3]  # List with elements
+my_list: list[int] = list()  # Using constructor
+my_list: list[int] = list(range(5))  # [0, 1, 2, 3, 4]
+my_list: list[int] = [0] * 5  # [0, 0, 0, 0, 0] (repeated element)
+my_list: list[int] = [i for i in range(5)]  # List comprehension
+my_list: list[str] = []  # List of strings
 ```
 
 **Methods:**
@@ -32,12 +32,12 @@ my_list: list[str] = []                                   # List of strings
 ### Tuple
 **Initialize:**
 ```python
-my_tuple: tuple = ()                                      # Empty tuple
-my_tuple: tuple[int, int, int] = (1, 2, 3)              # Tuple with elements
-my_tuple: tuple[int, ...] = (1,)                         # Single element tuple (comma required!)
-my_tuple: tuple = tuple()                                # Using constructor
-my_tuple: tuple[int, ...] = tuple([1, 2, 3])            # Convert list to tuple
-my_tuple: tuple[int, ...] = tuple(range(5))             # (0, 1, 2, 3, 4)
+my_tuple: tuple = ()  # Empty tuple
+my_tuple: tuple[int, int, int] = (1, 2, 3)  # Tuple with elements
+my_tuple: tuple[int, ...] = (1,)  # Single element tuple (comma required!)
+my_tuple: tuple = tuple()  # Using constructor
+my_tuple: tuple[int, ...] = tuple([1, 2, 3])  # Convert list to tuple
+my_tuple: tuple[int, ...] = tuple(range(5))  # (0, 1, 2, 3, 4)
 ```
 
 **Methods:**
@@ -51,9 +51,9 @@ my_tuple: tuple[int, ...] = tuple(range(5))             # (0, 1, 2, 3, 4)
 ```python
 from collections import deque
 
-my_deque: deque[int] = deque()                           # Empty deque
-my_deque: deque[int] = deque([1, 2, 3])                 # Deque with elements
-my_deque: deque[int] = deque(maxlen=5)                  # Max length (circular when full)
+my_deque: deque[int] = deque()  # Empty deque
+my_deque: deque[int] = deque([1, 2, 3])  # Deque with elements
+my_deque: deque[int] = deque(maxlen=5)  # Max length (circular when full)
 ```
 
 **Methods:**
@@ -75,12 +75,14 @@ my_deque: deque[int] = deque(maxlen=5)                  # Max length (circular w
 ### Dictionary
 **Initialize:**
 ```python
-my_dict: dict = {}                                       # Empty dict
-my_dict: dict[str, int] = {'a': 1, 'b': 2}            # Dict with key-value pairs
-my_dict: dict[str, int] = dict()                       # Using constructor
-my_dict: dict[str, int] = dict(a=1, b=2)              # Keyword arguments
-my_dict: dict[str, int] = dict([('a', 1), ('b', 2)])  # From list of tuples
-my_dict: dict[int, int] = {i: i*2 for i in range(3)}  # Dict comprehension {0: 0, 1: 2, 2: 4}
+my_dict: dict = {}  # Empty dict
+my_dict: dict[str, int] = {"a": 1, "b": 2}  # Dict with key-value pairs
+my_dict: dict[str, int] = dict()  # Using constructor
+my_dict: dict[str, int] = dict(a=1, b=2)  # Keyword arguments
+my_dict: dict[str, int] = dict([("a", 1), ("b", 2)])  # From list of tuples
+my_dict: dict[int, int] = {
+    i: i * 2 for i in range(3)
+}  # Dict comprehension {0: 0, 1: 2, 2: 4}
 ```
 
 **Methods:**
@@ -104,11 +106,11 @@ my_dict: dict[int, int] = {i: i*2 for i in range(3)}  # Dict comprehension {0: 0
 ### Set
 **Initialize:**
 ```python
-my_set: set = set()                                     # Empty set (NOT {} - that's a dict!)
-my_set: set[int] = {1, 2, 3}                          # Set with elements
-my_set: set[int] = set([1, 2, 3])                     # Convert list to set
-my_set: set[int] = set(range(5))                      # {0, 1, 2, 3, 4}
-my_set: set[int] = {i for i in range(5)}              # Set comprehension
+my_set: set = set()  # Empty set (NOT {} - that's a dict!)
+my_set: set[int] = {1, 2, 3}  # Set with elements
+my_set: set[int] = set([1, 2, 3])  # Convert list to set
+my_set: set[int] = set(range(5))  # {0, 1, 2, 3, 4}
+my_set: set[int] = {i for i in range(5)}  # Set comprehension
 ```
 
 **Methods:**
@@ -131,10 +133,10 @@ my_set: set[int] = {i for i in range(5)}              # Set comprehension
 ### Frozenset
 **Initialize:**
 ```python
-my_frozenset: frozenset = frozenset()                  # Empty frozenset
-my_frozenset: frozenset[int] = frozenset([1, 2, 3])   # Convert list to frozenset
-my_frozenset: frozenset[int] = frozenset({1, 2, 3})   # Convert set to frozenset
-my_frozenset: frozenset[int] = frozenset(range(5))    # frozenset({0, 1, 2, 3, 4})
+my_frozenset: frozenset = frozenset()  # Empty frozenset
+my_frozenset: frozenset[int] = frozenset([1, 2, 3])  # Convert list to frozenset
+my_frozenset: frozenset[int] = frozenset({1, 2, 3})  # Convert set to frozenset
+my_frozenset: frozenset[int] = frozenset(range(5))  # frozenset({0, 1, 2, 3, 4})
 ```
 
 **Methods:**
@@ -186,13 +188,13 @@ import heapq
 # Heap is a list with special structure
 my_heap: list[int] = []
 my_heap: list[int] = [3, 2, 1]
-heapq.heapify(my_heap)                # Transform into min-heap: [1, 2, 3]
+heapq.heapify(my_heap)  # Transform into min-heap: [1, 2, 3]
 
 # Or build incrementally
 my_heap: list[int] = []
 heapq.heappush(my_heap, 5)
 heapq.heappush(my_heap, 3)
-heapq.heappush(my_heap, 7)            # [3, 5, 7]
+heapq.heappush(my_heap, 7)  # [3, 5, 7]
 ```
 
 **Methods:**
@@ -217,13 +219,15 @@ class Node:
         self.left: Node | None = None
         self.right: Node | None = None
 
+
 class BST:
     def __init__(self) -> None:
         self.root: Node | None = None
-    
+
     def insert(self, value: int) -> None:
         # Custom insert logic
         pass
+
 
 # Usage:
 bst: BST = BST()
@@ -249,15 +253,11 @@ bst.insert(15)
 ```python
 # Using dict of lists
 graph: dict[int, list[int]] = {}
-graph: dict[int, list[int]] = {
-    1: [2, 3],
-    2: [1, 4],
-    3: [1],
-    4: [2]
-}
+graph: dict[int, list[int]] = {1: [2, 3], 2: [1, 4], 3: [1], 4: [2]}
 
 # Or using defaultdict
 from collections import defaultdict
+
 graph: defaultdict[int, list[int]] = defaultdict(list)
 graph[1].append(2)
 graph[1].append(3)
@@ -272,12 +272,7 @@ graph[1].append(3)
 
 **Implementation:** Dict of lists
 ```python
-graph = {
-    1: [2, 3],
-    2: [1, 4],
-    3: [1],
-    4: [2]
-}
+graph = {1: [2, 3], 2: [1, 4], 3: [1], 4: [2]}
 ```
 
 ### Union-Find (Disjoint Set Union)
@@ -288,15 +283,16 @@ class UnionFind:
     def __init__(self, n: int) -> None:
         self.parent: list[int] = list(range(n))
         self.rank: list[int] = [0] * n
-    
+
     def find(self, x: int) -> int:
         if self.parent[x] != x:
             self.parent[x] = self.find(self.parent[x])  # Path compression
         return self.parent[x]
-    
+
     def union(self, x: int, y: int) -> None:
         # Union by rank logic
         pass
+
 
 # Usage:
 uf: UnionFind = UnionFind(5)

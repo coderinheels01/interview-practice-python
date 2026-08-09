@@ -52,30 +52,30 @@ Note:
 
 from dataclasses import dataclass, field
 
+
 @dataclass
 class DynamicArray:
     capacity: int
-    dynamic_array:list[int] = field(default_factory= list, init= False)
-    size: int = field(default= 0, init= False)
-
+    dynamic_array: list[int] = field(default_factory=list, init=False)
+    size: int = field(default=0, init=False)
 
     def increment_size(self):
         if self.capacity >= self.size:
             self.size += 1
         else:
             raise OverflowError("array is at capacity")
-    
+
     def decrement_size(self):
         if self.size > 0:
             self.size -= 1
 
-    def validate_index(self, index:int):
-        return 0<= index < self.capacity
+    def validate_index(self, index: int):
+        return 0 <= index < self.capacity
 
     def is_full(self):
-        return self.capacity - 1 == self.size 
+        return self.capacity - 1 == self.size
 
-    def get(self, i:int) -> int:
+    def get(self, i: int) -> int:
         self.validate_index(index=i)
         return self.dynamic_array[i]
 
@@ -91,13 +91,12 @@ class DynamicArray:
         self.dynamic_array[index] = n
         self.increment_size()
 
-
     def popback(self) -> int:
-        index:int = len(self.dynamic_array) -1
-        value:int = self.dynamic_array[index]
+        index: int = len(self.dynamic_array) - 1
+        value: int = self.dynamic_array[index]
         self.dynamic_array[index] = None
         return value
-    
+
     def resize(self) -> None:
         self.dynamic_array.extend([None] * self.capacity)
         self.capacity = len(self.dynamic_array)
@@ -152,5 +151,6 @@ def solve():
     print(f"expected popback = 20, result = {dynamic_array.popback()}")
     print(f"expected popback = 10, result = {dynamic_array.popback()}")
     print(f"expected size = 0, result = {dynamic_array.getSize()}")
+
 
 solve()

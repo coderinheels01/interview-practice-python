@@ -34,9 +34,7 @@ Example 2:
 """
 
 
-
-
-def insertion_sort(input:list[tuple[int, str]]) -> list[tuple[int, str]]:
+def insertion_sort(input: list[tuple[int, str]]) -> list[tuple[int, str]]:
     """
     Approach: for each element at temp_index, walk it backward (via while loop)
     swapping with its left neighbour until it reaches its correct sorted position.
@@ -54,17 +52,17 @@ def insertion_sort(input:list[tuple[int, str]]) -> list[tuple[int, str]]:
         - Sorts in place, only a few integer variables (n, temp_index, j) are allocated
         - No extra arrays or data structures used regardless of input size
     """
-    n:int = len(input)
+    n: int = len(input)
 
     if n < 2:
         return input
 
-    def swap(index1:int, index2:int):
-        temp:int = input[index2]
+    def swap(index1: int, index2: int):
+        temp: int = input[index2]
         input[index2] = input[index1]
-        input[index1] =temp
+        input[index1] = temp
 
-    temp_index:int = 1
+    temp_index: int = 1
 
     for temp_index in range(1, n):
         j: int = temp_index
@@ -73,6 +71,7 @@ def insertion_sort(input:list[tuple[int, str]]) -> list[tuple[int, str]]:
             j -= 1
 
     return input
+
 
 def solve() -> None:
     example1: list[tuple[int, str]] = [(5, "apple"), (2, "banana"), (9, "cherry")]
@@ -121,5 +120,6 @@ def solve() -> None:
     result7: list[tuple[int, str]] = insertion_sort(example7)
     print("\nExample 7 (all same keys):")
     print(f"expected={expected7} got={result7}")
+
 
 solve()

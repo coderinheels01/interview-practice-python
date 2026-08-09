@@ -171,10 +171,10 @@ def fountain_flooding_monotonic_stack_optimized(
             result[left_wall] = 1
 
         # Interior left range: from (left_wall+1) up to (fountain_idx-1)
-        left_start: int = left_wall + 1   # = 0 when left_wall == -1
-        if left_start < fountain_idx:     # at least one position in range
+        left_start: int = left_wall + 1  # = 0 when left_wall == -1
+        if left_start < fountain_idx:  # at least one position in range
             diff[left_start] += 1
-            diff[fountain_idx] -= 1       # fountain itself is not flooded
+            diff[fountain_idx] -= 1  # fountain itself is not flooded
 
         # --- Right side ---
         # right_wall is the nearest index to the right with height >= fountain height.
@@ -195,7 +195,7 @@ def fountain_flooding_monotonic_stack_optimized(
         right_end: int = right_wall if right_wall != -1 else n  # exclusive upper bound
         if fountain_idx + 1 < right_end:  # at least one position in range
             diff[fountain_idx + 1] += 1
-            if right_end < n:             # no need to undo past the array end
+            if right_end < n:  # no need to undo past the array end
                 diff[right_end] -= 1
 
     # Apply prefix sum over diff to find all flooded interior positions

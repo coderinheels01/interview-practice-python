@@ -102,19 +102,21 @@ Space Complexity: O(M + N)
 https://www.youtube.com/watch?v=2VLwjvODQbA
 """
 
+
 def most_booked(n: int, meetings: list[list[int]]) -> int:
     """Return the room that hosts the most meetings."""
 
-    end_heap: list[tuple[int,int]] = [] # [(end_time, room)]
-    occupied_rooms: list[int] = [0] * n 
-    start_index:int = 0
+    end_heap: list[tuple[int, int]] = []  # [(end_time, room)]
+    occupied_rooms: list[int] = [0] * n
+    start_index: int = 0
 
-    free_rooms = list(range(n)) # 0, 1, 2, 3 ... n, no need to heapify if the array is sorted can use heap operations
+    free_rooms = list(
+        range(n)
+    )  # 0, 1, 2, 3 ... n, no need to heapify if the array is sorted can use heap operations
 
-    meetings = sorted(meetings, key =lambda meeting: meeting[0])
+    meetings = sorted(meetings, key=lambda meeting: meeting[0])
 
     for start, end in meetings:
-
         # finished meetings, so free room
         while end_heap and end_heap[0][0] <= start:
             _, room = heapq.heappop(end_heap)
@@ -122,37 +124,51 @@ def most_booked(n: int, meetings: list[list[int]]) -> int:
 
         # if there is free room, schedule it
         if free_rooms:
-            room:int = heapq.heappop(free_rooms)
+            room: int = heapq.heappop(free_rooms)
             heapq.heappush(end_heap, (end, room))
             occupied_rooms[room] += 1
             start_index += 1
-        elif end_heap: # if there is no free room, pop from end heap and shift the end time
+        elif (
+            end_heap
+        ):  # if there is no free room, pop from end heap and shift the end time
             min_end, room = heapq.heappop(end_heap)
             heapq.heappush(end_heap, (min_end + (end - start), room))
             occupied_rooms[room] += 1
             start_index += 1
 
-    return occupied_rooms.index(max(occupied_rooms)) # return room number of max number of meetings scheduled
+    return occupied_rooms.index(
+        max(occupied_rooms)
+    )  # return room number of max number of meetings scheduled
+
 
 def solve():
     n: int = 2
     meetings: list[list[int]] = [[0, 10], [1, 5], [2, 7], [3, 4]]
     # Expected: 0
-    print(f"most booked room for n ={n} for meetings = {meetings} is result {most_booked(n, meetings)}")
+    print(
+        f"most booked room for n ={n} for meetings = {meetings} is result {most_booked(n, meetings)}"
+    )
 
     n: int = 3
     meetings: list[list[int]] = [[1, 20], [2, 10], [3, 5], [4, 9], [6, 8]]
-    #Expected: 1
-    print(f"most booked room for n ={n} for meetings = {meetings} is result {most_booked(n, meetings)}")
+    # Expected: 1
+    print(
+        f"most booked room for n ={n} for meetings = {meetings} is result {most_booked(n, meetings)}"
+    )
 
     n: int = 1
     meetings: list[list[int]] = [[0, 5], [10, 15], [20, 25]]
-    #Expected: 0
-    print(f"most booked room for n ={n} for meetings = {meetings} is result {most_booked(n, meetings)}")
+    # Expected: 0
+    print(
+        f"most booked room for n ={n} for meetings = {meetings} is result {most_booked(n, meetings)}"
+    )
 
     n: int = 2
     meetings: list[list[int]] = [[0, 2], [1, 10], [3, 4], [5, 6]]
-    #Expected: 0
-    print(f"most booked room for n ={n} for meetings = {meetings} is result {most_booked(n, meetings)}")
+    # Expected: 0
+    print(
+        f"most booked room for n ={n} for meetings = {meetings} is result {most_booked(n, meetings)}"
+    )
+
 
 solve()

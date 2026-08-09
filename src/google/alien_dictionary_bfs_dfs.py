@@ -20,7 +20,6 @@ References:
     https://www.youtube.com/watch?v=cIBFEhD77b4&t=336s
 """
 
-
 """
 Approach: Build graph from adjacent word pairs + Kahn's BFS topological sort
   Phase 1 — Graph construction: compare every pair of adjacent words
@@ -45,6 +44,7 @@ Space Complexity: O(1) — at most 26 letters, so neighbor_map, in_degree,
 
 
 from collections import defaultdict, deque
+
 
 def alien_dictionary_bfs(words: list[str]) -> str:
 
@@ -78,7 +78,6 @@ def alien_dictionary_bfs(words: list[str]) -> str:
         for j in range(len(words[i])):
             if words[i][j] not in in_degree:
                 in_degree[words[i][j]] = 0
-
 
     # Step 5: Seed the BFS queue with all letters that have no prerequisites
     # (in-degree 0). These are valid starting points in the alien alphabet.
@@ -132,6 +131,8 @@ Space Complexity: O(1) — at most 26 letters, so neighbors, white/grey/black
                   sets, the call stack, and result are all bounded by the
                   alphabet size.
 """
+
+
 def alien_dictionary_dfs(words: list[str]) -> str:
 
     # Step 1: Pre-populate the graph with every unique character so all
@@ -209,20 +210,13 @@ def alien_dictionary_dfs(words: list[str]) -> str:
 
     return result
 
-        
-
-
-
-
-
-
 
 def solve():
     words: list[str] = ["wrt", "wrf", "er", "ett", "rftt"]
     # expected: "wertf"
     print(f"{words} the alien alphabets are {alien_dictionary_bfs(words=words)}")
     print(f"{words} the alien alphabets are {alien_dictionary_dfs(words=words)}")
-   
+
     # words: list[str] = ["z", "x"]
     # # expected: "zx"
     # print(f"{words}  the alien alphabets are {alien_dictionary_bfs(words=words)}")
@@ -246,5 +240,6 @@ def solve():
     # expected: "a"
     print(f"{words} the alien alphabets are {alien_dictionary_bfs(words=words)}")
     print(f"{words} the alien alphabets are {alien_dictionary_dfs(words=words)}")
+
 
 solve()

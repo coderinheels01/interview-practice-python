@@ -56,7 +56,7 @@ def find_all_equal_splits(
     if total % 2 != 0:
         return []
 
-    target: int = total // 2          # each candidate must reach this sum
+    target: int = total // 2  # each candidate must reach this sum
     index_set: set[int] = set(range(n))  # all indices; used to derive right subset
     result: list[tuple[set[str], set[str]]] = []
 

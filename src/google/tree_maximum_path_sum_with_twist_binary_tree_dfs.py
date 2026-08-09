@@ -106,6 +106,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import math
 
+
 @dataclass
 class TreeNode:
     value: int
@@ -140,9 +141,7 @@ def tree_maximum_path_sum_with_global_max_sum(
         left_gain: int = max(0, left_sum)
         right_gain: int = max(0, right_sum)
 
-        path_through_node: int = (
-            node.value + left_gain + right_gain
-        )
+        path_through_node: int = node.value + left_gain + right_gain
 
         max_sum = max(max_sum, path_through_node)
 
@@ -215,14 +214,13 @@ def tree_maximum_path_sum_with_global_max_sum(
 def tree_maximum_path_sum_without_global_max_sum(root: TreeNode | None) -> int:
     if not root:
         return 0
-    
+
     def dfs(node: TreeNode | None) -> tuple[int, int | float]:
         # Return (best_downward_sum, best_sum_anywhere_in_this_subtree).
         if not node:
             return 0, -math.inf
 
         left_down, best_left = dfs(node.left)
-
 
         right_down, best_right = dfs(node.right)
 
@@ -235,17 +233,11 @@ def tree_maximum_path_sum_without_global_max_sum(root: TreeNode | None) -> int:
 
         best_of_all: int | float = max(best_path_through, best_left, best_right)
 
-        return best_down, best_of_all 
-
+        return best_down, best_of_all
 
     _, max_sum = dfs(root)
 
     return int(max_sum)
-        
-
-
-
-
 
 
 def solve():
@@ -261,7 +253,9 @@ def solve():
     root.right.right = TreeNode(7)
 
     # Expected: (42, 42)
-    print(f"expected = (42, 42), result = {tree_maximum_path_sum_with_global_max_sum(root)}")
+    print(
+        f"expected = (42, 42), result = {tree_maximum_path_sum_with_global_max_sum(root)}"
+    )
     # print(f"expected = (42, 42), result = {tree_maximum_path_sum_without_global_max_sum(root)}")
 
     # #            1

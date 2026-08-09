@@ -62,7 +62,7 @@ ALGORITHM:
     Step 4: Return the count of valid split indices.
 
   Prefix/Suffix: https://www.youtube.com/watch?v=xbYr9JOC2Lk
-  
+
     Step 1: Build prefix_max where prefix_max[i] = max(A[0..i]).
             A single forward pass gives O(1) max(left) lookup for any split.
 

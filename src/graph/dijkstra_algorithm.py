@@ -89,7 +89,9 @@ Complexity:
 import heapq
 
 
-def build_adjacency_map(edges: list[tuple[int, int, int]]) ->  dict[int, list[tuple[int, int]]]:
+def build_adjacency_map(
+    edges: list[tuple[int, int, int]],
+) -> dict[int, list[tuple[int, int]]]:
     # Step 1: Group every directed edge by its source vertex.
     adj: dict[int, list[tuple[int, int]]] = {}
 
@@ -102,9 +104,8 @@ def build_adjacency_map(edges: list[tuple[int, int, int]]) ->  dict[int, list[tu
 
     return adj
 
-def dijkstra(
-    n: int, edges: list[tuple[int, int, int]], src: int
-) -> dict[int, int]:
+
+def dijkstra(n: int, edges: list[tuple[int, int, int]], src: int) -> dict[int, int]:
     # Step 2: Initialize every vertex as unreachable.
     result: dict[int, int] = {vertex: -1 for vertex in range(n)}
     adjacency_map: dict[int, list[tuple[int, int]]] = build_adjacency_map(edges=edges)
@@ -139,7 +140,6 @@ def dijkstra(
 
     # Step 10: Any vertex that was never reached still has distance -1.
     return result
-
 
 
 def solve():
@@ -196,5 +196,5 @@ def solve():
     print(f"expected: {expected}")
     print(f"result: {result}")
 
-solve()
 
+solve()

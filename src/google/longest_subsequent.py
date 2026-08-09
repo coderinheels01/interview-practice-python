@@ -1,5 +1,3 @@
-
-
 # =============================================================================
 # Optimized approach using a hash map
 #
@@ -52,6 +50,7 @@ print()  # blank line separator between the two problems
 #   - Space: O(n)
 # =============================================================================
 
+
 def longest_subsequent_number_dynamic_programming(nums: list[int]) -> int:
     # Backward DP approach:
     # result[i] = length of the longest consecutive subsequence starting at index i
@@ -59,11 +58,11 @@ def longest_subsequent_number_dynamic_programming(nums: list[int]) -> int:
     result: list[int] = [0] * n
 
     # base case: the last element is always a subsequence of length 1
-    result[n-1] = 1
+    result[n - 1] = 1
 
     # iterate from the second-to-last element back to the front
-    for i in range(n-1, -1, -1):
-        for j in range(i+1, n):
+    for i in range(n - 1, -1, -1):
+        for j in range(i + 1, n):
             # if nums[j] is exactly 1 more than nums[i], extend the chain
             if nums[j] - nums[i] == 1:
                 result[i] = max(result[i], 1 + result[j])
@@ -73,14 +72,27 @@ def longest_subsequent_number_dynamic_programming(nums: list[int]) -> int:
 
 
 def solve():
-    nums:list[int] = [3, 1, 2, 3, 4]
-    print(f"DP solution: longest subsequent of {nums} is {longest_subsequent_number_dynamic_programming(nums)}")
-    print(f"Optimized: longest subsequent of {nums} is {longest_consecutive_subsequence_optimized(nums)}")
-    nums:list[int] = [1, 2, 3, 4, 5, 6]
-    print(f"DP solution: longest subsequent of {nums} is {longest_subsequent_number_dynamic_programming(nums)}")
-    print(f"Optimized: longest subsequent of {nums} is {longest_consecutive_subsequence_optimized(nums)}")
-    nums:list[int] = [6, 5, 4, 3, 2, 1]
-    print(f"DP solution: longest subsequent of {nums} is {longest_subsequent_number_dynamic_programming(nums)}")
-    print(f"Optimized: longest subsequent of {nums} is {longest_consecutive_subsequence_optimized(nums)}")
+    nums: list[int] = [3, 1, 2, 3, 4]
+    print(
+        f"DP solution: longest subsequent of {nums} is {longest_subsequent_number_dynamic_programming(nums)}"
+    )
+    print(
+        f"Optimized: longest subsequent of {nums} is {longest_consecutive_subsequence_optimized(nums)}"
+    )
+    nums: list[int] = [1, 2, 3, 4, 5, 6]
+    print(
+        f"DP solution: longest subsequent of {nums} is {longest_subsequent_number_dynamic_programming(nums)}"
+    )
+    print(
+        f"Optimized: longest subsequent of {nums} is {longest_consecutive_subsequence_optimized(nums)}"
+    )
+    nums: list[int] = [6, 5, 4, 3, 2, 1]
+    print(
+        f"DP solution: longest subsequent of {nums} is {longest_subsequent_number_dynamic_programming(nums)}"
+    )
+    print(
+        f"Optimized: longest subsequent of {nums} is {longest_consecutive_subsequence_optimized(nums)}"
+    )
+
 
 solve()

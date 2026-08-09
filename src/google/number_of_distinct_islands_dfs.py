@@ -59,18 +59,24 @@ def number_of_distinct_island_coordiatess(grid: list[list[int]]) -> int:
     visited: set[tuple[int, int]] = set()
 
     # Step 3: Define the four allowed directions: right, left, down, and up.
-    dists:list[tuple[int, int]] = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    dists: list[tuple[int, int]] = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 
     # Store hashable, normalized representations of all unique island shapes.
-    distinct_island_coordiatess:set[frozenset[tuple[int, int]]] = set()
+    distinct_island_coordiatess: set[frozenset[tuple[int, int]]] = set()
 
     # Save the grid dimensions for neighbor bounds checking during DFS.
-    n:int = len(grid)
-    k:int = len(grid[0])
+    n: int = len(grid)
+    k: int = len(grid[0])
 
     count: int = 0
 
-    def dfs(row:int, col:int, start:int, end:int, island_coordiates: set[tuple[int, int]]):
+    def dfs(
+        row: int,
+        col: int,
+        start: int,
+        end: int,
+        island_coordiates: set[tuple[int, int]],
+    ):
         # Step 4: Record this cell's position relative to the island's origin.
         if (row, col) not in visited:
             island_coordiates.add((start, end))
@@ -80,23 +86,27 @@ def number_of_distinct_island_coordiatess(grid: list[list[int]]) -> int:
 
         # Step 5: Explore every valid, connected, unvisited land neighbor.
         for d1, d2 in dists:
-            new_row:int = row + d1
-            new_col:int = col + d2
+            new_row: int = row + d1
+            new_col: int = col + d2
 
             # Apply the same movement to the normalized coordinates.
-            new_start:int = start + d1
-            new_end:int = end + d2
+            new_start: int = start + d1
+            new_end: int = end + d2
 
-            if 0 <= new_row < n and 0 <= new_col < k and  grid[new_row][new_col] == 1 and (new_row, new_col) not in visited:
+            if (
+                0 <= new_row < n
+                and 0 <= new_col < k
+                and grid[new_row][new_col] == 1
+                and (new_row, new_col) not in visited
+            ):
                 dfs(new_row, new_col, new_start, new_end, island_coordiates)
-        
-                
+
     # Step 6: Scan the grid for the starting cell of every island.
     for i in range(len(grid)):
         for j in range(len(grid[0])):
             if grid[i][j] == 1:
                 # Start each island at relative coordinate (0, 0).
-                island_coordiates:set[tuple[int, int]] = set()
+                island_coordiates: set[tuple[int, int]] = set()
                 dfs(i, j, 0, 0, island_coordiates)
 
                 # Step 7: Freeze the coordinates so the shape can enter a set.
@@ -107,12 +117,8 @@ def number_of_distinct_island_coordiatess(grid: list[list[int]]) -> int:
                     distinct_island_coordiatess.add(shape)
                     count += 1
 
-    
-
     # Step 8: Return the number of unique normalized island shapes.
     return count
-
-
 
 
 def solve():
@@ -164,5 +170,6 @@ def solve():
         f"expected distinct island_coordiatess = 2, "
         f"result = {number_of_distinct_island_coordiatess(grid)}"
     )
+
 
 solve()

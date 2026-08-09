@@ -181,45 +181,88 @@ def meeting_rooms_sorted_array(meetings: list[tuple[int, int]]) -> int:
 
 
 def solve():
-    meetings:list[tuple[int, int]] = [[0,30],[5,10],[15,20]]
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} ")
-   
-    meetings: list[tuple[int, int]] = [[1,5],[6,10],[11,15]]
-    # Expected: 1
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} ")
+    meetings: list[tuple[int, int]] = [[0, 30], [5, 10], [15, 20]]
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} "
+    )
 
-    meetings: list[tuple[int, int]] = [[1,10],[2,10],[3,10]]
+    meetings: list[tuple[int, int]] = [[1, 5], [6, 10], [11, 15]]
+    # Expected: 1
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} "
+    )
+
+    meetings: list[tuple[int, int]] = [[1, 10], [2, 10], [3, 10]]
     # Expected: 3
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} ")
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} "
+    )
 
-    meetings: list[tuple[int, int]] = [[1,5],[5,10]]
+    meetings: list[tuple[int, int]] = [[1, 5], [5, 10]]
     # Expected: 1
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} ")
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} "
+    )
 
-    meetings: list[tuple[int, int]] = [[5,10]]
+    meetings: list[tuple[int, int]] = [[5, 10]]
     # Expected: 1
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} ")
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} "
+    )
 
-    meetings: list[tuple[int, int]] = [[1,20],[5,10],[6,8]]
+    meetings: list[tuple[int, int]] = [[1, 20], [5, 10], [6, 8]]
     # Expected: 3
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} ")
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} "
+    )
 
-    meetings: list[tuple[int, int]] = [[0,10],[1,5],[2,6],[3,8],[9,12]]
+    meetings: list[tuple[int, int]] = [[0, 10], [1, 5], [2, 6], [3, 8], [9, 12]]
     # Expected: 4
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} ")
-    print(f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} ")
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_difference_array(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_min_heap(meetings=meetings)} "
+    )
+    print(
+        f"meeting rooms needed for meetings {meetings} is {meeting_rooms_sorted_array(meetings=meetings)} "
+    )
+
 
 solve()
