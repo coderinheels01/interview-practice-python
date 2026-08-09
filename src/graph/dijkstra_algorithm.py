@@ -82,6 +82,8 @@ Complexity:
     Space: O(V + E)
         The result dictionary stores V distances, the adjacency list stores E
         edges, and the heap may contain O(E) entries including stale entries.
+
+    https://www.youtube.com/watch?v=EFg3u_E6eHU&t=43s
 """
 
 import heapq
