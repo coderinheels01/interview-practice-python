@@ -20,3 +20,21 @@ Whenever I ask to add an "Approach" to a solution:
 Write each test as a separate block with `expected` above `result`, followed by
 an assertion and output. Do not create a `test_cases` collection or loop over
 test cases.
+
+## New problem-file requests
+
+Whenever I ask to "make a file" for a coding problem:
+
+1. Place the file in the folder most relevant to the problem's algorithm or
+   topic, and use a descriptive snake_case filename.
+2. Put the complete, cleanly formatted question at the top of the file inside a
+   module docstring.
+3. Add a typed function template with a descriptive name and the correct
+   parameters and return type.
+4. Leave the function unimplemented with `pass`.
+5. Never provide or add a solution unless I explicitly ask for one.
+6. Always add a typed `solve()` function containing exactly one test case from
+   the question.
+7. In that test case, put `expected` above `result`, then include an assertion
+   and print both values.
+8. Add an `if __name__ == "__main__":` guard that calls `solve()`.

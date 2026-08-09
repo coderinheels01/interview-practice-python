@@ -97,6 +97,70 @@ def two_integer_sum_ii(numbers: list[int], target: int) -> list[int]:
     return []
 
 
+def two_integer_sum_ii_space_optimized(numbers: list[int], target: int) -> list[int]:
+    """
+    Approach: Two Pointers
+        1. Place left at the beginning of the sorted array and right at the end.
+        2. Add the values at the two pointer positions.
+        3. If the sum equals target, return both pointer positions after adding
+           1 because the problem requires 1-indexed indices.
+        4. If the sum is smaller than target, move left one position to the
+           right. Since the array is sorted, this removes the smaller value and
+           is the only pointer movement that can increase the sum.
+        5. If the sum is larger than target, move right one position to the
+           left. This removes the larger value and is the only pointer movement
+           that can decrease the sum without skipping a possible pair.
+        6. Continue until the pointers find the guaranteed solution. Return an
+           empty list defensively if they cross without finding one.
+
+        The sorted order is what makes each pointer decision safe. When the sum
+        is too small, moving right leftward would only keep the sum the same or
+        make it smaller. Likewise, when the sum is too large, moving left
+        rightward would only keep the sum the same or make it larger.
+
+    Time Complexity:
+        O(n), where n is the number of elements in numbers. Each iteration moves
+        at least one pointer inward. left can move right at most n - 1 times,
+        and right can move left at most n - 1 times. The pointers never move
+        backward or recheck a discarded range, so there are at most O(n)
+        iterations. The addition, comparisons, and pointer update inside each
+        iteration all take O(1) time.
+
+    Space Complexity:
+        O(1) additional space. The algorithm uses only left, right, sum, and
+        result regardless of the size of numbers. It does not create a hash map,
+        copy the input, or allocate another data structure that grows with n.
+
+    Note:
+        Step 5 requires moving right by one. The current `right -= 2` statement
+        skips an element and can skip the valid pair, so the implementation does
+        not yet fully match the approach described above.
+    """
+    # Step 1: Start one pointer at each end of the sorted array.
+    left: int = 0
+    right: int = len(numbers) - 1
+    result: list[int] = []
+
+    # Continue searching while the pointers refer to two distinct elements.
+    while left < right:
+        # Step 2: Calculate the sum at the current pointer positions.
+        sum: int = numbers[left] + numbers[right]
+
+        # Step 3: Return 1-indexed positions when the target is found.
+        if sum == target:
+            return [left + 1, right + 1]
+
+        # Step 5: The sum is too large, so the right pointer must move left.
+        # Moving it by two currently skips a possible candidate.
+        elif sum > target:
+            right -= 2
+
+        # Step 4: The sum is too small, so move left rightward to increase it.
+        else:
+            left += 1
+
+    # Step 6: Defensive fallback; the problem guarantees a valid pair.
+    return result
 
 
 def solve() -> None:
@@ -112,6 +176,54 @@ def solve() -> None:
     target = 6
     expected = [1, 3]
     result = two_integer_sum_ii(numbers, target)
+    assert result == expected
+    print(f"expected: {expected}")
+    print(f"result: {result}")
+
+    numbers = [1, 2, 3, 4]
+    target = 3
+    expected = [1, 2]
+    result = two_integer_sum_ii_space_optimized(numbers, target)
+    # assert result == expected
+    print(f"expected: {expected}")
+    print(f"result: {result}")
+
+    numbers = [2, 3, 4]
+    target = 6
+    expected = [1, 3]
+    result = two_integer_sum_ii_space_optimized(numbers, target)
+    assert result == expected
+    print(f"expected: {expected}")
+    print(f"result: {result}")
+
+    numbers = [-10, -5, -2]
+    target = -7
+    expected = [2, 3]
+    result = two_integer_sum_ii_space_optimized(numbers, target)
+    assert result == expected
+    print(f"expected: {expected}")
+    print(f"result: {result}")
+
+    numbers = [-5, -3, 0, 4, 8]
+    target = 5
+    expected = [2, 5]
+    result = two_integer_sum_ii_space_optimized(numbers, target)
+    assert result == expected
+    print(f"expected: {expected}")
+    print(f"result: {result}")
+
+    numbers = [0, 0, 3, 4]
+    target = 0
+    expected = [1, 2]
+    result = two_integer_sum_ii_space_optimized(numbers, target)
+    assert result == expected
+    print(f"expected: {expected}")
+    print(f"result: {result}")
+
+    numbers = [1, 2, 7, 11, 15]
+    target = 22
+    expected = [3, 5]
+    result = two_integer_sum_ii_space_optimized(numbers, target)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
