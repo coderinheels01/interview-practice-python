@@ -80,6 +80,7 @@ def is_valid_palindrome(s: str) -> bool:
     # this line because they do not need any pair comparisons.
     return True
 
+
 def is_valid_palindrome_space_optimized(s: str) -> bool:
     """
     Approach: Two pointers directly on the original string, skipping
@@ -140,7 +141,7 @@ def solve():
     assert result == expected
     assert result_optimized == expected
     print(f"expected: {expected}")
-    print(f"result: {result}") 
+    print(f"result: {result}")
 
     s = "tab a cat"
     expected = False
