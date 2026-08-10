@@ -73,6 +73,12 @@ def container_with_most_water(heights: list[int]) -> int:
         max_water, width, and height. The number of variables does not grow with
         the length of heights, and the algorithm does not copy the input or use
         any additional collection.
+
+    https://www.youtube.com/watch?v=Y_4_or0Sc7I
+
+    https://www.youtube.com/watch?v=UuiTKBwPgAo
+
+
     """
     # Step 1: Start at both ends to examine the widest possible container.
     n: int = len(heights)
