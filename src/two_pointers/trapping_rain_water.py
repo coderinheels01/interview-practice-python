@@ -161,6 +161,8 @@ def trapping_rain_water(heights: list[int]) -> int:
         n integer indices, requiring O(n) + O(n) = O(n) space. The remaining
         variables, including n, i, and body_of_water, use O(1) space. The input
         is read directly and is not modified.
+
+        https://www.youtube.com/watch?v=KFdHpOlz8hs
     """
     # Step 1: Allocate arrays for the maximum boundary index on each side.
     n: int = len(heights)
@@ -186,10 +188,6 @@ def trapping_rain_water(heights: list[int]) -> int:
         else:
             right_max_height[i] = i
 
-    print(f"heights         {heights}")
-    print(f"left_max_height {left_max_height}")
-    print(f"right_max_height{right_max_height}")
-
     # Steps 5 and 6: Calculate and accumulate water above every bar.
     for i in range(0, n):
         body_of_water += (
@@ -200,105 +198,221 @@ def trapping_rain_water(heights: list[int]) -> int:
     return body_of_water
 
 
+def trapping_rain_water_two_pointers(heights: list[int]) -> int:
+    """
+    Approach: Two Pointers with Running Maximums
+        1. Return 0 for an empty elevation map.
+        2. Place left at the beginning and right at the end. Track max_left and
+           max_right as the tallest bars encountered from their respective
+           sides, and initialize the accumulated water to 0.
+        3. Compare the two running maximums. The smaller maximum determines the
+           side whose trapped water can be calculated safely:
+              - If max_left is smaller, move left inward and process that bar.
+              - Otherwise, move right inward and process that bar.
+        4. At the selected position, the shorter running maximum limits the
+           water level. Subtract the current bar's height from that level and
+           add the result when it is positive.
+        5. Update the selected side's running maximum after processing the
+           current bar. If the current bar is a new maximum, it contributes no
+           water and becomes the boundary for later positions.
+        6. Continue until the pointers meet. Because a pointer moves before its
+           position is processed, the meeting position is included. Return the
+           accumulated water.
+
+    Why the Smaller Maximum Is Safe:
+        When max_left < max_right, a right boundary at least as tall as max_left
+        is already known. The water at the next left position is therefore
+        limited by max_left, regardless of any taller bars that may be found
+        later on the right. The same reasoning applies symmetrically when
+        max_right is less than or equal to max_left. This lets the algorithm
+        finalize one position without precomputing maximum arrays.
+
+    Time Complexity:
+        O(n), where n is the number of bars. Every loop iteration moves exactly
+        one pointer inward. left can move right at most n - 1 times and right
+        can move left at most n - 1 times, and neither pointer reverses
+        direction. The loop therefore performs at most n - 1 iterations, with
+        O(1) comparisons, arithmetic, and assignments in each iteration.
+
+    Space Complexity:
+        O(1) additional space. The algorithm stores only left, right, max_left,
+        max_right, and body_of_water. No list, dictionary, recursion, or other
+        storage grows with the size of heights.
+
+        https://www.youtube.com/watch?v=ZI2z5pq0TqA
+    """
+    # Step 1: An empty elevation map cannot trap water.
+    if not heights:
+        return 0
+
+    # Step 2: Start at both boundaries and record their running maximum heights.
+    left: int = 0
+    right: int = len(heights) - 1
+    max_left: int = heights[left]
+    max_right: int = heights[right]
+    body_of_water: int = 0
+
+    # Step 6: Move inward until every relevant position has been processed.
+    while left < right:
+        # Step 3: The smaller left maximum is the known limiting boundary.
+        if max_left < max_right:
+            left += 1
+
+            # Step 4: Calculate water at the newly reached left position.
+            body_of_water += max(0, min(max_left, max_right) - heights[left])
+
+            # Step 5: Include the current bar in the running left maximum.
+            max_left = max(max_left, heights[left])
+
+        # Step 3: The right maximum is the limiting boundary, including a tie.
+        else:
+            right -= 1
+
+            # Step 4: Calculate water at the newly reached right position.
+            body_of_water += max(0, min(max_left, max_right) - heights[right])
+
+            # Step 5: Include the current bar in the running right maximum.
+            max_right = max(max_right, heights[right])
+
+    # Step 6: Return the total after the pointers have met.
+    return body_of_water
+
+
 def solve() -> None:
     heights: list[int] = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
     expected: int = 9
     result: int = trapping_rain_water_brute_force(heights)
     result2: int = trapping_rain_water(heights)
+    result3: int = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
     heights = [5]
     expected = 0
     result = trapping_rain_water_brute_force(heights)
     result2 = trapping_rain_water(heights)
+    result3 = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
     heights = [1, 2, 3, 4]
     expected = 0
     result = trapping_rain_water_brute_force(heights)
     result2 = trapping_rain_water(heights)
+    result3 = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
     heights = [4, 3, 2, 1]
     expected = 0
     result = trapping_rain_water_brute_force(heights)
     result2 = trapping_rain_water(heights)
+    result3 = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
     heights = [2, 2, 2]
     expected = 0
     result = trapping_rain_water_brute_force(heights)
     result2 = trapping_rain_water(heights)
+    result3 = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
     heights = [2, 0, 2]
     expected = 2
     result = trapping_rain_water_brute_force(heights)
     result2 = trapping_rain_water(heights)
+    result3 = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     # assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
     heights = [3, 0, 1, 3]
     expected = 5
     result = trapping_rain_water_brute_force(heights)
     result2 = trapping_rain_water(heights)
+    result3 = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
     heights = [3, 1, 2, 1, 3]
     expected = 5
     result = trapping_rain_water_brute_force(heights)
     result2 = trapping_rain_water(heights)
+    result3 = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
     heights = [4, 2, 0, 3, 2, 5]
     expected = 9
     result = trapping_rain_water_brute_force(heights)
     result2 = trapping_rain_water(heights)
+    result3 = trapping_rain_water_two_pointers(heights)
     assert result == expected
     print(f"expected: {expected}")
     print(f"result: {result}")
     assert result2 == expected
     print(f"expected: {expected}")
     print(f"result2: {result2}")
+    assert result3 == expected
+    print(f"expected: {expected}")
+    print(f"result3: {result3}")
 
 
 if __name__ == "__main__":
