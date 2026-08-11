@@ -68,8 +68,8 @@
 # Overall space: O(n) for n = max_size (cache dict + heap entries)
 # =============================================================================
 
-import time
 import heapq
+import time
 
 
 class Entry:
@@ -77,6 +77,7 @@ class Entry:
         self.key: int = key
         self.content: str = content
         self.score: int = score
+
         self.last_accessed: float = time.time()
 
 
@@ -133,6 +134,7 @@ class Cache:
         while self.even_score_entries:
             score, last_accessed, key = heapq.heappop(self.even_score_entries)
             entry = self.cache.get(key)
+
             if entry and entry.score == score and entry.last_accessed == last_accessed:
                 del self.cache[key]
                 return

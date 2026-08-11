@@ -1,0 +1,9 @@
+{
+  "ruff.enable": true,
+  "ruff.nativeServer": "on",
+  "ruff.importStrategy": "useBundled",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true
+  }
+}
