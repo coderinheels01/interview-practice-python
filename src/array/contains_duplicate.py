@@ -72,6 +72,13 @@ def contains_duplicate_space_optimized(nums: list[int]) -> bool:
 
     Note:
         This function mutates ``nums`` by sorting it.
+
+    https://www.youtube.com/watch?v=ZxH3jcA3EK0
+
+    https://www.youtube.com/watch?v=2DmK_H7IdTo
+
+    https://www.youtube.com/watch?v=pY-cH7rti4U
+    
     """
 
     n: int = len(nums)
