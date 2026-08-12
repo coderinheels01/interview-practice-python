@@ -1,5 +1,12 @@
 # Coding Preferences
 
+## Existing code changes
+
+Never change, rewrite, refactor, optimize, or fix my existing solution code
+without my explicit permission. When I ask for documentation, comments, tests,
+or advice, limit changes strictly to what I requested and leave the solution
+implementation exactly as written.
+
 ## Approach requests
 
 Whenever I ask to add an "Approach" to a solution:

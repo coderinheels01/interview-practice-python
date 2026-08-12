@@ -4,6 +4,7 @@
   "ruff.importStrategy": "useBundled",
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
   }
 }
