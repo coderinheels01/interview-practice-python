@@ -34,42 +34,42 @@ def max_subarray(nums: list[int]) -> int:
     Approach:
         1. If ``nums`` contains one number, return that number because it is
            the only possible non-empty subarray.
-        2. Initialize the maximum sum with the first number, an index for
-           traversing the array, and a running sum of 0.
-        3. Visit each number and add it to the running sum. This represents
-           the sum of the current candidate subarray.
+        2. Initialize the maximum sum with the first number, store the length
+           of the array, and initialize a running sum of 0.
+        3. Use a for loop to visit each index and add its number to the running
+           sum. This represents the sum of the current candidate subarray.
         4. Compare the running sum with the maximum sum found so far and keep
            the larger value.
         5. If the running sum is negative, reset it to 0. A negative prefix
            would only decrease the sum of any subarray that continues after
            it, so the next number should start a new candidate subarray.
-        6. Advance the index and repeat until every number has been processed.
-        7. Return the maximum subarray sum found.
+        6. After the for loop has processed every number, return the maximum
+           subarray sum found.
 
     Time Complexity:
-        O(n), where n is the length of ``nums``. The while loop visits each
+        O(n), where n is the length of ``nums``. The for loop visits each
         number exactly once, and every operation inside the loop takes O(1)
         time. This satisfies the prompt's O(n) target.
 
     Space Complexity:
-        O(1). The algorithm uses only ``max_sum``, ``right``, ``n``, and
-        ``current_sum``, whose memory usage does not grow with the input size.
-        
+        O(1). The algorithm uses only ``max_sum``, ``n``, ``current_sum``, and
+        the loop index ``i``, whose memory usage does not grow with the input
+        size.
+
     https://www.youtube.com/watch?v=5WZl3MMT0Eg
     """
     # 1. Return the only possible subarray sum for a single-element input.
     if len(nums) == 1:
         return nums[0]
 
-    # 2. Initialize the maximum, traversal index, input size, and running sum.
+    # 2. Initialize the maximum, input size, and running sum.
     max_sum: int = nums[0]
-    right: int = 0
     n: int = len(nums)
     current_sum: int = 0
 
-    # 3. Visit every number and add it to the current candidate subarray.
-    while right < n:
-        current_sum += nums[right]
+    # 3. Use a for loop to add every number to the current candidate subarray.
+    for i in range(n):
+        current_sum += nums[i]
 
         # 4. Record the largest subarray sum seen so far.
         max_sum = max(max_sum, current_sum)
@@ -77,12 +77,7 @@ def max_subarray(nums: list[int]) -> int:
         # 5. Discard a negative running sum before considering the next number.
         if current_sum < 0:
             current_sum = 0
-
-        # 6. Advance to the next number.
-        right += 1
-
-
-    # 7. Return the largest sum found.
+    # 6. Return the largest sum after the for loop processes every number.
     return max_sum
 
 
