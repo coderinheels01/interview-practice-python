@@ -54,6 +54,8 @@ def max_subarray(nums: list[int]) -> int:
     Space Complexity:
         O(1). The algorithm uses only ``max_sum``, ``right``, ``n``, and
         ``current_sum``, whose memory usage does not grow with the input size.
+        
+    https://www.youtube.com/watch?v=5WZl3MMT0Eg
     """
     # 1. Return the only possible subarray sum for a single-element input.
     if len(nums) == 1:
