@@ -22,6 +22,8 @@ Constraints:
     - 1 <= nums.length <= 10^5
     - -10^4 <= nums[i] <= 10^4
     - nums may contain duplicate elements.
+
+    https://www.youtube.com/watch?v=37E9ckMDdTk&t=767s
 """
 
 
@@ -65,7 +67,55 @@ def second_largest_element_brute_force(nums: list[int]) -> int:
     return -1
 
 
-def second_largest_element(nums: list[int]) -> int:
+def second_largest_element_optimized1(nums: list[int]) -> int:
+    """Return the second-largest distinct value using two array traversals.
+
+    Approach:
+        1. Store the length of ``nums`` and return -1 if the array is empty.
+        2. Initialize ``largest`` with the first element.
+        3. Traverse the remaining elements and update ``largest`` whenever a
+           greater value is encountered.
+        4. Initialize ``second_largest`` to negative infinity to represent that
+           no second-largest distinct value has been found yet.
+        5. Traverse the entire array again. For every value distinct from
+           ``largest``, update ``second_largest`` when that value is greater
+           than the current second-largest candidate.
+        6. Return -1 if no second-largest distinct value was found; otherwise,
+           return ``second_largest``.
+
+    Time Complexity:
+        O(n), where n is the length of ``nums``. The function performs two
+        separate linear traversals, O(n) + O(n), which simplifies to O(n).
+
+    Space Complexity:
+        O(1), because only ``n``, ``largest``, ``second_largest``, and the loop
+        index are used regardless of the input size.
+    """
+    # Step 1: Store the length and handle an empty input.
+    n: int = len(nums)
+    if n < 1:
+        return -1
+
+    # Step 2: Initialize the largest value with the first element.
+    largest: int = nums[0]
+
+    # Step 3: Find the largest value during the first traversal.
+    for i in range(1, n):
+        largest = max(largest, nums[i])
+
+    # Step 4: Initialize the not-found sentinel for the second-largest value.
+    second_largest: int | float = -float("inf")
+
+    # Step 5: Find the largest value that is distinct from the maximum.
+    for i in range(n):
+        if nums[i] != largest and nums[i] > second_largest:
+            second_largest = nums[i]
+
+    # Step 6: Return -1 when no second-largest distinct value exists.
+    return -1 if second_largest == -float("inf") else second_largest
+
+
+def second_largest_element_optimized2(nums: list[int]) -> int:
     """Return the second-largest distinct value in ``nums``, or -1 if absent.
 
     Approach:
@@ -182,10 +232,10 @@ def solve() -> None:
     print(f"Expected: {expected}")
     print(f"Result: {result}")
 
-    nums: list[int] = [8, 8, 7, 6, 5]
+    nums = [8, 8, 7, 6, 5]
 
-    expected: int = 7
-    result: int = second_largest_element(nums)
+    expected = 7
+    result = second_largest_element_optimized1(nums)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -194,7 +244,7 @@ def solve() -> None:
     nums = [10, 10, 10, 10, 10]
 
     expected = -1
-    result = second_largest_element(nums)
+    result = second_largest_element_optimized1(nums)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -203,7 +253,7 @@ def solve() -> None:
     nums = [7, 7, 2, 2, 10, 10, 10]
 
     expected = 7
-    result = second_largest_element(nums)
+    result = second_largest_element_optimized1(nums)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -212,7 +262,7 @@ def solve() -> None:
     nums = [1, 2]
 
     expected = 1
-    result = second_largest_element(nums)
+    result = second_largest_element_optimized1(nums)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -221,7 +271,7 @@ def solve() -> None:
     nums = [5]
 
     expected = -1
-    result = second_largest_element(nums)
+    result = second_largest_element_optimized1(nums)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -230,7 +280,7 @@ def solve() -> None:
     nums = [-1, -2, -3]
 
     expected = -2
-    result = second_largest_element(nums)
+    result = second_largest_element_optimized1(nums)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -239,7 +289,7 @@ def solve() -> None:
     nums = [-1, -1, -2]
 
     expected = -2
-    result = second_largest_element(nums)
+    result = second_largest_element_optimized1(nums)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -248,7 +298,79 @@ def solve() -> None:
     nums = [-10, 0, 10, 5]
 
     expected = 5
-    result = second_largest_element(nums)
+    result = second_largest_element_optimized1(nums)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums: list[int] = [8, 8, 7, 6, 5]
+
+    expected: int = 7
+    result: int = second_largest_element_optimized2(nums)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [10, 10, 10, 10, 10]
+
+    expected = -1
+    result = second_largest_element_optimized2(nums)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [7, 7, 2, 2, 10, 10, 10]
+
+    expected = 7
+    result = second_largest_element_optimized2(nums)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [1, 2]
+
+    expected = 1
+    result = second_largest_element_optimized2(nums)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [5]
+
+    expected = -1
+    result = second_largest_element_optimized2(nums)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [-1, -2, -3]
+
+    expected = -2
+    result = second_largest_element_optimized2(nums)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [-1, -1, -2]
+
+    expected = -2
+    result = second_largest_element_optimized2(nums)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [-10, 0, 10, 5]
+
+    expected = 5
+    result = second_largest_element_optimized2(nums)
 
     assert result == expected
     print(f"Expected: {expected}")
