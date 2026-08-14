@@ -7,6 +7,15 @@ without my explicit permission. When I ask for documentation, comments, tests,
 or advice, limit changes strictly to what I requested and leave the solution
 implementation exactly as written.
 
+## Recommendation requests
+
+Whenever I use the word "recommendation" followed by a function definition or
+function name, review that function and give recommendations based on relevant
+best practices, including correctness, edge cases, readability, naming, type
+annotations, mutation behavior, time complexity, and space complexity. Do not
+update, rewrite, refactor, optimize, or fix the code directly. Explain suggested
+changes in the chat only, and clearly state that no files were changed.
+
 ## Approach requests
 
 Whenever I ask to add an "Approach" to a solution:
@@ -27,6 +36,15 @@ Whenever I ask to add an "Approach" to a solution:
 Write each test as a separate block with `expected` above `result`, followed by
 an assertion and output. Do not create a `test_cases` collection or loop over
 test cases.
+
+Whenever I ask to "add test cases," add comprehensive coverage for all relevant
+edge cases allowed by the problem's constraints, in addition to normal examples.
+Consider minimum and maximum input sizes or values, empty inputs only when
+allowed, single-element inputs, duplicates, all-identical values, already-valid
+inputs, boundary values, negative values, zero, and parameters that are zero,
+equal to the input size, or larger than the input size when applicable. Include
+only edge cases relevant to the specific problem, and keep every test in the
+separate-block format above.
 
 ## New problem-file requests
 
