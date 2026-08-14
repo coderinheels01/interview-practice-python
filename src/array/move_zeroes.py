@@ -16,6 +16,8 @@ Example 2:
     Output: [1, 3, -2, 0, 0, 0]
     Explanation: All three zeroes are moved to the end, and the order of the
     other elements remains the same.
+
+    https://www.youtube.com/watch?v=wvcQg43_V8U&list=PLgUwDviBIf0rENwdL0nEH0uGom9no0nyB&index=2
 """
 
 
@@ -105,7 +107,156 @@ def move_zeroes_space_optimized(nums: list[int]) -> None:
         nums[zero_index] = 0
 
 
+def move_zeroes_space_optimized2(nums: list[int]) -> None:
+    """Move zeroes to the end in one traversal using in-place swaps.
+
+    Approach:
+        1. Store the length of ``nums``, initialize ``read_index`` at the start
+           of the array, and initialize ``write_index`` to -1. A value of -1
+           means that no zero has been found yet.
+        2. Traverse the array while ``read_index`` is within its bounds.
+        3. When ``read_index`` finds the first zero and ``write_index`` is still
+           -1, store that zero's index in ``write_index``. This identifies the
+           earliest position available for a nonzero value.
+        4. After a zero has been found, when ``read_index`` reaches a nonzero
+           value, swap it with the zero at ``write_index`` and advance
+           ``write_index`` to the next position. Processing nonzero values from
+           left to right preserves their relative order.
+        5. Advance ``read_index`` after every iteration until the traversal is
+           complete. Each swap leaves a zero behind, so all zeroes gradually
+           collect at the end of the array.
+
+    Time Complexity:
+        O(n), where n is the length of ``nums``. ``read_index`` advances once
+        per iteration and visits every array position exactly once.
+
+    Space Complexity:
+        O(1), because the function modifies ``nums`` in place and uses only
+        ``n``, ``read_index``, and ``write_index`` regardless of input size.
+    """
+    # Step 1: Initialize the array length, reader, and no-zero-found sentinel.
+    n: int = len(nums)
+    read_index: int = 0
+    write_index: int = -1
+
+    # Step 2: Traverse the array from left to right.
+    while read_index < n:
+        # Step 3: Record the index of the first zero encountered.
+        if nums[read_index] == 0 and write_index == -1:
+            write_index = read_index
+
+        # Step 4: Swap each later nonzero value with the earliest available zero.
+        elif nums[read_index] != 0 and write_index != -1:
+            nums[write_index], nums[read_index] = nums[read_index], nums[write_index]
+            write_index += 1
+
+        # Step 5: Continue scanning the remaining elements.
+        read_index += 1
+
+
 def solve() -> None:
+    nums: list[int] = [0, 1, 4, 0, 5, 2]
+
+    expected: list[int] = [1, 4, 5, 2, 0, 0]
+    move_zeroes_space_optimized2(nums)
+    result: list[int] = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [0, 0, 0, 1, 3, -2]
+
+    expected = [1, 3, -2, 0, 0, 0]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [1, 2, 3, 4]
+
+    expected = [1, 2, 3, 4]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [0, 0, 0, 0]
+
+    expected = [0, 0, 0, 0]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [0]
+
+    expected = [0]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [7]
+
+    expected = [7]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [0, 0, 1, 2, 3]
+
+    expected = [1, 2, 3, 0, 0]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [1, 2, 3, 0, 0]
+
+    expected = [1, 2, 3, 0, 0]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [0, 1, 0, 2, 0, 3, 0]
+
+    expected = [1, 2, 3, 0, 0, 0, 0]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums = [-1, 0, -2, 0, -3]
+
+    expected = [-1, -2, -3, 0, 0]
+    move_zeroes_space_optimized2(nums)
+    result = nums
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    """Temporarily disabled tests for the other implementations.
+
     nums: list[int] = [0, 1, 4, 0, 5, 2]
 
     expected: list[int] = [1, 4, 5, 2, 0, 0]
@@ -205,8 +356,6 @@ def solve() -> None:
     assert result == expected
     print(f"Expected: {expected}")
     print(f"Result: {result}")
-
-    """Temporarily disabled brute-force tests.
 
     nums: list[int] = [0, 1, 4, 0, 5, 2]
 
