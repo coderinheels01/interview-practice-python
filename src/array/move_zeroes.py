@@ -26,37 +26,44 @@ def move_zeroes_brute_force(nums: list[int]) -> None:
         1. Store the length of ``nums``, create a temporary array filled with
            zeroes, and initialize ``new_index`` to the first position.
         2. Traverse every element in ``nums`` using ``old_index``.
-        3. When the current element is nonzero, copy it into ``result`` at
+        3. When the current element is nonzero, copy it into ``temp`` at
            ``new_index`` and advance ``new_index``. Skipping zeroes preserves
            the relative order of all nonzero elements, while unused positions
-           in ``result`` remain zero.
-        4. Traverse every index again and copy ``result`` back into ``nums`` so
-           the input list is modified.
+           in ``temp`` remain zero.
+        4. Traverse every index in ``nums`` again. When the index is less than
+           the length of ``temp``, copy the corresponding value from ``temp``
+           into ``nums``; otherwise, write zero. Because ``temp`` is created
+           with the same length as ``nums``, the condition is always true and
+           the ``else`` branch is unreachable in the current implementation.
 
     Time Complexity:
         O(n), where n is the length of ``nums``. The first loop examines all n
-        elements, and the second loop copies all n elements back into ``nums``.
+        elements, and the second loop visits all n indices to copy values back
+        into ``nums``.
 
     Space Complexity:
-        O(n), because ``result`` contains n elements. The index variables use
+        O(n), because ``temp`` contains n elements. The index variables use
         O(1) additional space. This brute-force implementation does not satisfy
         the prompt's requirement to avoid making a copy of the array.
     """
-    # Step 1: Store the length, allocate a zero-filled result, and set its writer.
+    # Step 1: Store the length, allocate a zero-filled temp, and set its writer.
     n: int = len(nums)
-    result: int = [0] * n
+    temp: int = [0] * n
     new_index: list[int] = 0
 
     # Step 2: Examine every value in the original array.
     for old_index in range(n):
         # Step 3: Copy each nonzero value in its original relative order.
         if nums[old_index] != 0:
-            result[new_index] = nums[old_index]
+            temp[new_index] = nums[old_index]
             new_index += 1
 
-    # Step 4: Copy the rearranged values back into the input array.
+    # Step 4: Copy temp values back, with an unreachable zero-fill fallback.
     for index in range(n):
-        nums[index] = result[index]
+        if index < len(temp):
+            nums[index] = temp[index]
+        else:
+            nums[index] = 0
 
 
 def move_zeroes_space_optimized(nums: list[int]) -> None:
