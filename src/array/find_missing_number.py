@@ -105,9 +105,10 @@ def find_missing_number_time_and_space_optimized2(nums: list[int]) -> int:
            for every expected value in the complete range.
         2. Traverse every valid array index from 0 through n - 1.
         3. XOR the current array value into ``xor1``.
-        4. XOR ``index + 1`` into ``xor2``. Across the loop, these values cover
-           the complete range from 1 through n; zero does not need to be added
-           because XOR with zero leaves a value unchanged.
+        4. XOR ``index + 1`` into ``xor2``. The problem's complete range remains
+           0 through n, but the loop produces the values 1 through n. This is
+           equivalent to XORing 0 through n because ``value ^ 0 == value``, so
+           including zero would not change the accumulated result.
         5. XOR both accumulated values. Every number present in both groups
            cancels itself, leaving only the missing number.
 
@@ -129,7 +130,7 @@ def find_missing_number_time_and_space_optimized2(nums: list[int]) -> int:
         # Step 3: Accumulate the values that are present in the input.
         xor1 = xor1 ^ nums[index]
 
-        # Step 4: Accumulate the expected values from 1 through n.
+        # Step 4: Accumulate 1 through n; XORing the omitted 0 has no effect.
         xor2 = xor2 ^ index + 1
 
     # Step 5: Matching values cancel, leaving the missing number.
