@@ -81,6 +81,63 @@ def intersection_of_sorted_arrays_brute_force(
     return result
 
 
+def intersection_of_sorted_arrays_optimized(
+    nums1: list[int], nums2: list[int]
+) -> list[int]:
+    """Return the intersection of two sorted arrays, including duplicates.
+
+    Approach:
+        1. Initialize one index for each array, store both array lengths, and
+           create an empty result list.
+        2. Compare the values at both indexes while neither array is exhausted.
+        3. If the current value in ``nums1`` is larger, advance the ``nums2``
+           index because its smaller value cannot match any later ``nums1``
+           value.
+        4. If the current value in ``nums1`` is smaller, advance the ``nums1``
+           index for the same reason.
+        5. If the values are equal, append one occurrence to the result and
+           advance both indexes so neither occurrence can be matched again.
+        6. Return the result when either array is exhausted because no further
+           matches are then possible.
+
+    Time Complexity:
+        O(n + m), where n and m are the lengths of ``nums1`` and ``nums2``.
+        Each index moves only forward and can advance at most the length of its
+        corresponding array.
+
+    Space Complexity:
+        O(1) auxiliary space because the indexes and lengths use constant
+        memory. The returned result can contain up to min(n, m) elements and
+        therefore uses O(min(n, m)) output space.
+    """
+    # Step 1: Initialize both indexes, both lengths, and the result list.
+
+    nums1_index: int = 0
+    nums2_index: int = 0
+
+    nums1_len: int = len(nums1)
+    nums2_len: int = len(nums2)
+    result: list[int] = []
+
+    # Step 2: Compare values while both arrays still have unprocessed elements.
+    while nums1_index < nums1_len and nums2_index < nums2_len:
+        # Step 3: Advance nums2 past a value that is too small to match.
+        if nums1[nums1_index] > nums2[nums2_index]:
+            nums2_index += 1
+
+        # Step 4: Advance nums1 past a value that is too small to match.
+        elif nums1[nums1_index] < nums2[nums2_index]:
+            nums1_index += 1
+        else:
+            # Step 5: Record the match and consume one value from each array.
+            result.append(nums1[nums1_index])
+            nums1_index += 1
+            nums2_index += 1
+
+    # Step 6: Return every matched occurrence in sorted order.
+    return result
+
+
 def solve() -> None:
     nums1: list[int] = [1, 2, 2, 3, 4]
     nums2: list[int] = [2, 2, 3, 5]
@@ -92,6 +149,125 @@ def solve() -> None:
     print(f"Expected: {expected}")
     print(f"Result: {result}")
 
+    nums1 = [1, 2, 2, 3, 4]
+    nums2 = [2, 2, 3, 5]
+
+    expected = [2, 2, 3]
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [1, 2, 3, 4, 5]
+    nums2 = [2, 4, 6, 8]
+
+    expected = [2, 4]
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [1, 3, 5]
+    nums2 = [2, 4, 6]
+
+    expected = []
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [1, 1, 2, 2, 3]
+    nums2 = [1, 1, 2, 2, 3]
+
+    expected = [1, 1, 2, 2, 3]
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [2, 2, 2, 2]
+    nums2 = [2, 2]
+
+    expected = [2, 2]
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [2, 2]
+    nums2 = [2, 2, 2, 2]
+
+    expected = [2, 2]
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [-10_000, -5, -1, 0, 3, 10_000]
+    nums2 = [-10_000, -1, 0, 2, 10_000]
+
+    expected = [-10_000, -1, 0, 10_000]
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [7]
+    nums2 = [7]
+
+    expected = [7]
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [7]
+    nums2 = [8]
+
+    expected = []
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = []
+    nums2 = [1, 2, 3]
+
+    expected = []
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = [1, 2, 3]
+    nums2 = []
+
+    expected = []
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    nums1 = []
+    nums2 = []
+
+    expected = []
+    result = intersection_of_sorted_arrays_optimized(nums1, nums2)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
     nums1 = [1, 2, 3, 4, 5]
     nums2 = [2, 4, 6, 8]
 
