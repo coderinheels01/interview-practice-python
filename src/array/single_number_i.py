@@ -13,6 +13,8 @@ Example 2:
     Input: nums = [5]
     Output: 5
     Explanation: The integer 5 appears only once.
+
+    https://www.youtube.com/watch?v=bYWLJb3vCWY&list=PLgUwDviBIf0rENwdL0nEH0uGom9no0nyB&index=3
 """
 
 from collections import Counter
