@@ -20,7 +20,10 @@ changes in the chat only, and clearly state that no files were changed.
 
 Whenever I ask to add an "Approach" to a solution:
 
-1. Add a clearly labeled `Approach` section to the function's docstring.
+1. Add a clear, explanatory function docstring with a clearly labeled
+   `Approach` section. Explain the function's purpose, important behavior,
+   parameters, return value, mutation behavior, and any assumptions or
+   constraints needed to use it correctly.
 2. Explain the algorithm thoroughly in numbered, step-by-step order.
 3. Add a `Time Complexity` section that states the Big-O complexity and explains
    why it has that complexity based on the loops, operations, and input size.
