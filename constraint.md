@@ -37,14 +37,18 @@ Write each test as a separate block with `expected` above `result`, followed by
 an assertion and output. Do not create a `test_cases` collection or loop over
 test cases.
 
-Whenever I ask to "add test cases," add comprehensive coverage for all relevant
-edge cases allowed by the problem's constraints, in addition to normal examples.
-Consider minimum and maximum input sizes or values, empty inputs only when
-allowed, single-element inputs, duplicates, all-identical values, already-valid
-inputs, boundary values, negative values, zero, and parameters that are zero,
-equal to the input size, or larger than the input size when applicable. Include
-only edge cases relevant to the specific problem, and keep every test in the
-separate-block format above.
+Whenever I ask to "add tests" or "add test cases," cover all relevant edge cases
+allowed by the problem's constraints, in addition to normal examples. Before
+finishing, explicitly check every minimum and maximum constraint, each boundary
+value, and every important algorithm-specific transition or branch. Consider
+minimum and maximum input sizes and values, empty inputs only when allowed,
+single-element inputs, duplicates, all-identical values, already-valid inputs,
+negative values, zero, and parameters that are zero, equal to the input size, or
+larger than the input size when applicable. Include tests for matches or valid
+results at the beginning, middle, and end of the input when position matters.
+Include only edge cases relevant to the specific problem, and keep every test in
+the separate-block format above. Do not claim coverage is complete until this
+checklist has been verified against the problem's stated constraints.
 
 ## New problem-file requests
 
