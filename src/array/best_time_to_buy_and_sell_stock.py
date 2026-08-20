@@ -81,12 +81,135 @@ def max_profit(prices: list[int]) -> int:
     # 5. Return the best profit, or 0 when no profitable trade exists.
     return max_profit
 
+def max_profit2(prices: list[int]) -> int:
+    """Return the largest profit from one buy followed by one later sale.
+
+    The input is expected to contain at least one price, as guaranteed by the
+    problem constraints. The function returns 0 when no profitable transaction
+    exists and does not modify ``prices``.
+
+    Approach: One-Pass Greedy Algorithm with a Running Minimum
+        1. Initialize the maximum profit and current profit to 0. Treat the
+           first day's price as the minimum buying price seen so far, and store
+           the number of days.
+        2. Traverse each day after the first from left to right.
+        3. Calculate the profit from selling on the current day after buying at
+           the minimum price from an earlier day.
+        4. Update the maximum profit when the current transaction is better.
+        5. Update the running minimum price so later days can use the cheapest
+           buying opportunity seen so far.
+        6. Return the maximum profit. It remains 0 if prices never increase
+           after a potential buying day.
+
+    Args:
+        prices: A non-empty list in which each value is a stock price for one
+            consecutive day.
+
+    Returns:
+        The greatest profit available from one buy and one later sale, or 0
+        when no profitable transaction exists.
+
+    Mutation Behavior:
+        The function reads ``prices`` without modifying it.
+
+    Why This Is Better Than ``max_profit``:
+        Both functions take O(n) time and O(1) space, but this version has more
+        direct control flow. It processes every day after the first exactly once
+        while maintaining one running minimum. ``max_profit`` manages separate
+        buy and sell pointers and performs an additional equal-index iteration
+        after discovering a lower buying price. This version is therefore
+        easier to trace and reason about, although ``max_profit`` additionally
+        handles an empty list while this function relies on the non-empty-input
+        constraint.
+
+    Time Complexity:
+        O(n), where n is the number of prices. The loop visits every day after
+        the first exactly once and performs constant-time work per day.
+
+    Space Complexity:
+        O(1) auxiliary space because only a fixed number of integer variables
+        are stored regardless of the number of prices.
+    """
+    # Step 1: Initialize profit tracking, the running minimum, and input size.
+    max_profit: int = 0
+    current_profit = 0
+    min_price: int = prices[0]
+    size: int = len(prices)
+
+    # Step 2: Process every possible selling day after the first day.
+    for day in range(1, size):
+        # Step 3: Calculate profit using the cheapest earlier buying price.
+        current_profit = prices[day] - min_price
+
+        # Step 4: Preserve the best profitable transaction found so far.
+        max_profit = max(current_profit, max_profit)
+
+        # Step 5: Track the cheapest price for future selling days.
+        min_price = min(min_price, prices[day])
+
+    # Step 6: Return the best profit, or 0 if no profitable trade exists.
+    return max_profit
+
 
 def solve() -> None:
-    prices = [7, 1, 5, 3, 6, 4]
+    # prices = [7, 1, 5, 3, 6, 4]
+    #
+    # expected = 5
+    # result = max_profit(prices)
+    #
+    # assert result == expected
+    # print(f"Expected: {expected}")
+    # print(f"Result: {result}")
 
-    expected = 5
-    result = max_profit(prices)
+    # prices = [7, 6, 4, 3, 1]
+    #
+    # expected = 0
+    # result = max_profit(prices)
+    #
+    # assert result == expected
+    # print(f"Expected: {expected}")
+    # print(f"Result: {result}")
+
+    # prices = [1]
+    #
+    # expected = 0
+    # result = max_profit(prices)
+    #
+    # assert result == expected
+    # print(f"Expected: {expected}")
+    # print(f"Result: {result}")
+
+    # prices = [3, 3, 3, 3]
+    #
+    # expected = 0
+    # result = max_profit(prices)
+    #
+    # assert result == expected
+    # print(f"Expected: {expected}")
+    # print(f"Result: {result}")
+
+    # prices = [1, 2, 3, 4, 5]
+    #
+    # expected = 4
+    # result = max_profit(prices)
+    #
+    # assert result == expected
+    # print(f"Expected: {expected}")
+    # print(f"Result: {result}")
+
+    # prices = [2, 4, 1, 10]
+    #
+    # expected = 9
+    # result = max_profit(prices)
+    #
+    # assert result == expected
+    # print(f"Expected: {expected}")
+    # print(f"Result: {result}")
+
+    prices: list[int] = [7, 1, 5, 3, 6, 4]
+
+    expected: int = 5
+    result: int = max_profit2(prices)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -95,7 +218,7 @@ def solve() -> None:
     prices = [7, 6, 4, 3, 1]
 
     expected = 0
-    result = max_profit(prices)
+    result = max_profit2(prices)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -104,7 +227,7 @@ def solve() -> None:
     prices = [1]
 
     expected = 0
-    result = max_profit(prices)
+    result = max_profit2(prices)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -113,7 +236,7 @@ def solve() -> None:
     prices = [3, 3, 3, 3]
 
     expected = 0
-    result = max_profit(prices)
+    result = max_profit2(prices)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -122,7 +245,7 @@ def solve() -> None:
     prices = [1, 2, 3, 4, 5]
 
     expected = 4
-    result = max_profit(prices)
+    result = max_profit2(prices)
 
     assert result == expected
     print(f"Expected: {expected}")
@@ -131,10 +254,55 @@ def solve() -> None:
     prices = [2, 4, 1, 10]
 
     expected = 9
-    result = max_profit(prices)
+    result = max_profit2(prices)
 
     assert result == expected
     print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [3, 1, 1, 5]
+
+    expected = 4
+    result = max_profit2(prices)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [5, 1, 6, 0, 2]
+
+    expected = 5
+    result = max_profit2(prices)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [0, 10_000]
+
+    expected = 10_000
+    result = max_profit2(prices)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [10_000, 0]
+
+    expected = 0
+    result = max_profit2(prices)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [10_000] + [0] * 99_998 + [10_000]
+
+    expected = 10_000
+    result = max_profit2(prices)
+
+    assert result == expected
+    print("Expected: maximum profit of 10,000 across 100,000 days")
     print(f"Result: {result}")
 
 
