@@ -92,7 +92,7 @@ def single_number_time_optimized(nums: list[int]) -> int:
 def single_number_space_optimized(nums: list[int]) -> int:
     """Return the value that appears once by canceling pairs with XOR.
 
-    Approach:
+    Approach: XOR Cancellation
         1. Initialize an XOR accumulator to 0, which is the identity value for
            XOR because ``value ^ 0 == value``.
         2. Traverse every number in ``nums``.

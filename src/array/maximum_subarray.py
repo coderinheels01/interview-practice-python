@@ -31,7 +31,7 @@ Follow up:
 def max_subarray(nums: list[int]) -> int:
     """Return the largest sum among all contiguous subarrays in ``nums``.
 
-    Approach:
+    Approach: Kadane's Algorithm
         1. If ``nums`` contains one number, return that number because it is
            the only possible non-empty subarray.
         2. Initialize the maximum sum with the first number, store the length
@@ -75,8 +75,7 @@ def max_subarray(nums: list[int]) -> int:
         max_sum = max(max_sum, current_sum)
 
         # 5. Discard a negative running sum before considering the next number.
-        if current_sum < 0:
-            current_sum = 0
+        current_sum = max(current_sum, 0)
     # 6. Return the largest sum after the for loop processes every number.
     return max_sum
 
@@ -135,7 +134,6 @@ def solve() -> None:
     assert result == expected
     print(f"Expected: {expected}")
     print(f"Result: {result}")
-
 
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@ Example 2:
 def union_of_sorted_arrays_brute_force(nums1: list[int], nums2: list[int]) -> list[int]:
     """Return the sorted union of two sorted integer arrays.
 
-    Approach:
+    Approach: Two-Pointer Merge
         1. Remove duplicates from each input array while preserving its sorted
            order by creating dictionaries from the values and converting their
            keys back to lists.
@@ -89,7 +89,7 @@ def union_of_sorted_arrays_space_optimized(
 ) -> list[int]:
     """Return the sorted union of two sorted integer arrays.
 
-    Approach:
+    Approach: Two-Pointer Merge
         1. Store both array lengths and initialize one index for each array,
            along with an empty result list.
         2. While both indexes are valid, select the smaller current value. If

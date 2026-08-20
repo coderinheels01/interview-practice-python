@@ -24,14 +24,18 @@ Whenever I ask to add an "Approach" to a solution:
    `Approach` section. Explain the function's purpose, important behavior,
    parameters, return value, mutation behavior, and any assumptions or
    constraints needed to use it correctly.
-2. Explain the algorithm thoroughly in numbered, step-by-step order.
-3. Add a `Time Complexity` section that states the Big-O complexity and explains
+2. If the solution uses a recognized algorithm, include its canonical name in
+   the `Approach` section, such as `Boyer-Moore Majority Vote Algorithm` or
+   `Dutch National Flag Algorithm`. Do not invent an algorithm name when the
+   solution does not use a known named algorithm.
+3. Explain the algorithm thoroughly in numbered, step-by-step order.
+4. Add a `Time Complexity` section that states the Big-O complexity and explains
    why it has that complexity based on the loops, operations, and input size.
-4. Add a `Space Complexity` section that states the Big-O complexity and explains
+5. Add a `Space Complexity` section that states the Big-O complexity and explains
    exactly which variables or data structures use the additional memory.
-5. Add step-by-step inline comments to the implementation so the comments match
+6. Add step-by-step inline comments to the implementation so the comments match
    the numbered steps in the approach.
-6. Keep every complexity claim accurate for the implementation. Mention when the
+7. Keep every complexity claim accurate for the implementation. Mention when the
    implementation does not satisfy a complexity requirement from the prompt.
 
 ## Test-case format

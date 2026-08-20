@@ -32,7 +32,7 @@ Constraints:
 def max_profit(prices: list[int]) -> int:
     """Return the largest profit from one buy followed by one sale.
 
-    Approach:
+    Approach: Two-Pointer Greedy Algorithm
         1. Record the number of prices and return 0 when the list is empty.
         2. Start the buying pointer on the first day, the selling pointer on
            the second day, and the maximum profit at 0.

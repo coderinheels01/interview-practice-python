@@ -134,7 +134,7 @@ def left_rotate_time_optimized(nums: list[int], k: int) -> None:
 def left_rotate_time_space_optimized(nums: list[int], k: int) -> None:
     """Rotate ``nums`` left by ``k`` places in place using three reversals.
 
-    Approach:
+    Approach: Reversal Algorithm
         1. Store the length of ``nums`` and normalize ``k`` with ``k % n`` so
            rotations larger than the array length wrap to an equivalent value.
         2. Define ``swap`` to exchange two elements in ``nums`` using their

@@ -86,7 +86,7 @@ def intersection_of_sorted_arrays_optimized(
 ) -> list[int]:
     """Return the intersection of two sorted arrays, including duplicates.
 
-    Approach:
+    Approach: Two-Pointer Intersection
         1. Initialize one index for each array, store both array lengths, and
            create an empty result list.
         2. Compare the values at both indexes while neither array is exhausted.

@@ -31,7 +31,7 @@ Constraints:
 def find_missing_number_time_optimized(nums: list[int]) -> int:
     """Return the missing value from the inclusive range 0 through n.
 
-    Approach:
+    Approach: Hash Set Lookup
         1. Convert ``nums`` to a set so that each possible number can be checked
            for membership efficiently.
         2. Store the length ``n`` of the input array.
@@ -62,7 +62,7 @@ def find_missing_number_time_optimized(nums: list[int]) -> int:
 def find_missing_number_time_and_space_optimized1(nums: list[int]) -> int:
     """Return the missing value using the difference between two sums.
 
-    Approach:
+    Approach: Gauss's Summation Formula
         1. Store the input length ``n``. Because the valid range is 0 through n,
            the complete range contains n + 1 possible values.
         2. Calculate the expected sum of every integer from 0 through n using
@@ -100,7 +100,7 @@ def find_missing_number_time_and_space_optimized1(nums: list[int]) -> int:
 def find_missing_number_time_and_space_optimized2(nums: list[int]) -> int:
     """Return the missing value by canceling matching values with XOR.
 
-    Approach:
+    Approach: XOR Cancellation
         1. Initialize ``xor1`` for the values present in ``nums`` and ``xor2``
            for every expected value in the complete range.
         2. Traverse every valid array index from 0 through n - 1.

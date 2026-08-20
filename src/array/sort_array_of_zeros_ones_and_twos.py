@@ -33,7 +33,7 @@ from io import StringIO
 def sort_array_of_zeros_ones_and_twos(nums: list[int]) -> None:
     """Sort ``nums`` in place using the frequencies of 0, 1, and 2.
 
-    Approach:
+    Approach: Counting Sort
         1. Count how many times each allowed value appears in ``nums``.
         2. Store the input size and initialize an index at the beginning of the
            array.
@@ -87,7 +87,10 @@ def sort_array_of_zeros_ones_and_twos_optimized(nums: list[int]) -> None:
     sorted values replace the contents of the original list. It assumes every
     element is 0, 1, or 2, as required by the problem constraints.
 
-    Approach: Dutch National Flag
+    This implementation uses the Dutch National Flag algorithm to partition
+    the three possible values with ``low``, ``mid``, and ``high`` pointers.
+
+    Approach: Dutch National Flag Algorithm
         1. Initialize three pointers: ``low`` marks where the next 0 belongs,
            ``mid`` marks the current unprocessed value, and ``high`` marks where
            the next 2 belongs. These pointers divide the list into a 0 region,

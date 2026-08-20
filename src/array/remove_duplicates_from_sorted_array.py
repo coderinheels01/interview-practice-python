@@ -96,7 +96,7 @@ def remove_duplicates_brute_force(nums: list[int]) -> int:
 def remove_duplicates_space_optimized(nums: list[int]) -> int:
     """Move unique values to the front of ``nums`` using constant extra space.
 
-    Approach:
+    Approach: Two Pointers
         1. Store the length of ``nums`` and initialize ``last_unique_index`` to
            index 0 because the first element is always the first unique value.
         2. Use ``first_different_index`` to scan the array from index 1 through

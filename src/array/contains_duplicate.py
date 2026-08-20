@@ -28,7 +28,7 @@ Constraints:
 def contains_duplicate_time_optimized(nums: list[int]) -> bool:
     """Return whether any integer appears more than once in ``nums``.
 
-    Approach:
+    Approach: Hash Set
         1. Convert the list into a set, which keeps only one copy of each
            distinct value.
         2. Compare the number of distinct values with the original number of
@@ -50,7 +50,7 @@ def contains_duplicate_time_optimized(nums: list[int]) -> bool:
 def contains_duplicate_space_optimized(nums: list[int]) -> bool:
     """Return whether any integer appears more than once in ``nums``.
 
-    Approach:
+    Approach: Heap Sort
         1. Treat ``nums`` as a complete binary tree and build a max heap in
            place by sifting each non-leaf node down. ``sift_down`` uses a loop
            instead of recursion so it requires constant auxiliary space.

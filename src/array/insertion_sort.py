@@ -36,7 +36,8 @@ Example 2:
 
 def insertion_sort(input: list[tuple[int, str]]) -> list[tuple[int, str]]:
     """
-    Approach: for each element at temp_index, walk it backward (via while loop)
+    Approach: Insertion Sort
+    For each element at temp_index, walk it backward (via while loop)
     swapping with its left neighbour until it reaches its correct sorted position.
     The left portion (0..temp_index) is always sorted after each outer iteration.
 

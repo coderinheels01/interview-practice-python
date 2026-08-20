@@ -71,7 +71,7 @@ def move_zeroes_brute_force(nums: list[int]) -> None:
 def move_zeroes_space_optimized(nums: list[int]) -> None:
     """Move all zeroes to the end of ``nums`` using constant extra space.
 
-    Approach:
+    Approach: Two Pointers
         1. Store the length of ``nums`` and initialize ``write_index`` to 0.
            This index marks where the next nonzero value should be placed.
         2. Traverse every element from left to right using ``read_index``.
@@ -110,7 +110,7 @@ def move_zeroes_space_optimized(nums: list[int]) -> None:
 def move_zeroes_space_optimized2(nums: list[int]) -> None:
     """Move zeroes to the end in one traversal using in-place swaps.
 
-    Approach:
+    Approach: Two Pointers
         1. Store the length of ``nums``, initialize ``read_index`` at the start
            of the array, and initialize ``write_index`` to -1. A value of -1
            means that no zero has been found yet.

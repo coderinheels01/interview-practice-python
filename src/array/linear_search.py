@@ -29,7 +29,7 @@ https://www.youtube.com/watch?v=wvcQg43_V8U&t=2330s
 def linear_search(nums: list[int], target: int) -> int:
     """Return the first index containing ``target``, or -1 if it is absent.
 
-    Approach:
+    Approach: Linear Search
         1. Traverse ``nums`` from left to right with ``enumerate`` so each
            iteration provides both the current index and value.
         2. Compare the current value with ``target``.

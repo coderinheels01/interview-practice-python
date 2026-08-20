@@ -78,7 +78,7 @@ def longest_subarray_with_sum_k_brute_force(nums: list[int], k: int) -> int:
 def longest_subarray_with_sum_k_optimized(nums: list[int], k: int) -> int:
     """Return the longest subarray length using prefix sums and a dictionary.
 
-    Approach:
+    Approach: Prefix Sum with Hash Map
         1. Initialize a running prefix sum, the maximum matching length, and a
            dictionary that maps each prefix sum to its earliest index.
         2. Traverse the array once, adding each number to the running prefix

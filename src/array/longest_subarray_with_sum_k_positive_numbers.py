@@ -32,7 +32,7 @@ Reference:
 def longest_subarray_with_sum_k_positive_numbers(nums: list[int], k: int) -> int:
     """Return the longest contiguous subarray length whose sum equals ``k``.
 
-    Approach:
+    Approach: Sliding Window
         1. Initialize left and right pointers at the beginning of the array,
            along with a running window sum and the maximum matching length.
         2. Move the right pointer across the array and add its value to expand
