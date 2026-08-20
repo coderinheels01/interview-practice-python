@@ -81,6 +81,7 @@ def max_profit(prices: list[int]) -> int:
     # 5. Return the best profit, or 0 when no profitable trade exists.
     return max_profit
 
+
 def max_profit2(prices: list[int]) -> int:
     """Return the largest profit from one buy followed by one later sale.
 
@@ -129,6 +130,8 @@ def max_profit2(prices: list[int]) -> int:
     Space Complexity:
         O(1) auxiliary space because only a fixed number of integer variables
         are stored regardless of the number of prices.
+
+        https://www.youtube.com/watch?v=excAOvwF_Wk&list=PLgUwDviBIf0rENwdL0nEH0uGom9no0nyB&index=10
     """
     # Step 1: Initialize profit tracking, the running minimum, and input size.
     max_profit: int = 0
