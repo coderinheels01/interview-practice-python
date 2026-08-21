@@ -48,6 +48,9 @@ Example 3:
 Constraints:
     - 1 <= nums.length <= 100
     - 0 <= nums[i] <= 100
+
+https://www.youtube.com/watch?v=JDOXKqF60RQ&list=PLgUwDviBIf0rENwdL0nEH0uGom9no0nyB&index=11
+
 """
 
 
