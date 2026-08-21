@@ -44,6 +44,11 @@ Write each test as a separate block with `expected` above `result`, followed by
 an assertion and output. Do not create a `test_cases` collection or loop over
 test cases.
 
+Whenever I ask to "add a test," "add tests," or "add test cases," append every
+new test block to the bottom of the existing test section in `solve()`, directly
+before the end of `solve()`. Never insert a new test between existing test
+blocks.
+
 Whenever I ask to "add tests" or "add test cases," cover all relevant edge cases
 allowed by the problem's constraints, in addition to normal examples. Before
 finishing, explicitly check every minimum and maximum constraint, each boundary
