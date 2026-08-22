@@ -284,165 +284,165 @@ def count_subarrays_with_given_sum_prefix_sum_optimized(nums: list[int], k: int)
 
 
 def solve() -> None:
-    # nums: list[int] = [1, 1, 1]
-    # k: int = 2
-    # expected: int = 2
-    # result: int = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums: list[int] = [1, 1, 1]
+    k: int = 2
+    expected: int = 2
+    result: int = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1, 2, 3]
-    # k = 3
-    # expected = 2
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1, 2, 3]
+    k = 3
+    expected = 2
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [3, 1, 2, 4]
-    # k = 6
-    # expected = 2
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [3, 1, 2, 4]
+    k = 6
+    expected = 2
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [2, 4, 6]
-    # k = 5
-    # expected = 0
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [2, 4, 6]
+    k = 5
+    expected = 0
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1, -1, 0]
-    # k = 0
-    # expected = 3
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1, -1, 0]
+    k = 0
+    expected = 3
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [0, 0, 0]
-    # k = 0
-    # expected = 6
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [0, 0, 0]
+    k = 0
+    expected = 6
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1000]
-    # k = 1000
-    # expected = 1
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1000]
+    k = 1000
+    expected = 1
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [-1000]
-    # k = -1000
-    # expected = 1
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [-1000]
+    k = -1000
+    expected = 1
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1000, -1000]
-    # k = 10_000_000
-    # expected = 0
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1000, -1000]
+    k = 10_000_000
+    expected = 0
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1000, -1000]
-    # k = -10_000_000
-    # expected = 0
-    # result = count_subarrays_with_given_sum_brute_force(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1000, -1000]
+    k = -10_000_000
+    expected = 0
+    result = count_subarrays_with_given_sum_brute_force(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1, 1, 1]
-    # k = 2
-    # expected = 2
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1, 1, 1]
+    k = 2
+    expected = 2
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1, 2, 3]
-    # k = 3
-    # expected = 2
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1, 2, 3]
+    k = 3
+    expected = 2
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [3, 1, 2, 4]
-    # k = 6
-    # expected = 2
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [3, 1, 2, 4]
+    k = 6
+    expected = 2
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1, -1, 0]
-    # k = 0
-    # expected = 3
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1, -1, 0]
+    k = 0
+    expected = 3
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [0, 0, 0]
-    # k = 0
-    # expected = 6
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [0, 0, 0]
+    k = 0
+    expected = 6
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [2, 4, 6]
-    # k = 5
-    # expected = 0
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [2, 4, 6]
+    k = 5
+    expected = 0
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1000]
-    # k = 1000
-    # expected = 1
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1000]
+    k = 1000
+    expected = 1
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [-1000]
-    # k = -1000
-    # expected = 1
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [-1000]
+    k = -1000
+    expected = 1
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1000, -1000]
-    # k = 10_000_000
-    # expected = 0
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1000, -1000]
+    k = 10_000_000
+    expected = 0
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # nums = [1000, -1000]
-    # k = -10_000_000
-    # expected = 0
-    # result = count_subarrays_with_given_sum_time_optimized(nums, k)
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    nums = [1000, -1000]
+    k = -10_000_000
+    expected = 0
+    result = count_subarrays_with_given_sum_time_optimized(nums, k)
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
     nums = [1, 1, 1]
     k = 2
