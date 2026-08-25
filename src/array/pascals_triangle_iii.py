@@ -35,12 +35,31 @@ https://www.youtube.com/watch?v=bR7mQgwQ_o8&list=PLgUwDviBIf0rENwdL0nEH0uGom9no0
 """
 
 
+def generate_row(row: int) -> list[int]:
+    # 3a. Start the requested row with its first coefficient, 1.
+    answer: int = 1
+    row_result: list[int] = [1]
+
+    # 3b. Visit each remaining column in the requested row.
+    for col in range(1, row):
+        # 3c. Calculate this coefficient from the preceding coefficient.
+        answer *= row - col
+        answer //= col
+
+        # 3d. Add the calculated coefficient to the requested row.
+        row_result.append(answer)
+
+    # 3e. Return the completed row to the triangle-generating function.
+    return row_result
+
+
 def generate_pascals_triangle(rows: int) -> list[list[int]]:
     """Return the first ``rows`` rows of Pascal's Triangle.
 
     Approach:
-        Generate every row using consecutive Binomial Coefficients. A
-        1-indexed Pascal row ``row`` contains:
+        Delegate the construction of each row to ``generate_row``, which uses
+        consecutive Binomial Coefficients. A 1-indexed Pascal row ``row``
+        contains:
 
             (row - 1)C0, (row - 1)C1, ..., (row - 1)C(row - 1)
 
@@ -52,19 +71,15 @@ def generate_pascals_triangle(rows: int) -> list[list[int]]:
         time once the preceding value is known.
 
         1. Create the outer result list that will contain every generated row.
-        2. Initialize ``answer`` to 1. The first value of every Pascal row is
-           1. In this implementation, each completed row also leaves
-           ``answer`` equal to its final value, which is 1, so it is ready for
-           the beginning of the next row.
-        3. Iterate through the requested 1-indexed row numbers.
-        4. Begin the current row with its required first value, 1.
-        5. Visit each remaining column in the current row.
-        6. Derive the current coefficient from the preceding coefficient by
-           multiplying by the decreasing numerator ``row - col`` and dividing
-           by the increasing denominator ``col``.
-        7. Append each calculated coefficient to the current row.
-        8. Append the completed row to the triangle.
-        9. Return the complete triangle.
+        2. Iterate through every requested 1-indexed row number, from 1 through
+           ``rows``.
+        3. Call ``generate_row`` for the current row number. The helper starts
+           a new row with 1, derives every remaining coefficient from the
+           preceding coefficient using the formula above, and returns the
+           completed row. Because the helper initializes its own ``answer``
+           and ``row_result``, each row is generated independently.
+        4. Append the completed row returned by the helper to the triangle.
+        5. Return the complete triangle after all requested rows are generated.
 
     Parameters:
         rows: The number of Pascal's Triangle rows to generate, starting with
@@ -79,12 +94,13 @@ def generate_pascals_triangle(rows: int) -> list[list[int]]:
         a new nested list.
 
     Time Complexity:
-        O(rows^2). The triangle contains ``1 + 2 + ... + rows`` values, and
-        every value is generated once.
+        O(rows^2). ``generate_row`` takes O(row) time for a given row, so the
+        total work is ``1 + 2 + ... + rows``, which is O(rows^2).
 
     Space Complexity:
-        O(rows^2) for the returned triangle. Excluding the required output,
-        only integer variables are used, so the auxiliary space is O(1).
+        O(rows^2) for the returned triangle. Each helper-created ``row_result``
+        becomes part of that returned triangle. Excluding the required output,
+        the helper and outer function use O(1) auxiliary space.
 
     Assumptions:
         ``1 <= rows <= 30``, as guaranteed by the problem constraints. Python
@@ -94,27 +110,15 @@ def generate_pascals_triangle(rows: int) -> list[list[int]]:
     # 1. Create the outer list that will hold every generated row.
     result: list[list[int]] = []
 
-    # 2. Initialize the current coefficient to the first-row value, 1.
-    answer: int = 1
-
-    # 3. Generate each requested 1-indexed row.
+    # 2. Iterate through each requested 1-indexed row number.
     for row in range(1, rows + 1):
-        # 4. Begin the current row with 1.
-        row_result: list[int] = [1]
+        # 3. Delegate construction of the current row to the helper.
+        row_result = generate_row(row)
 
-        # 5. Visit each remaining column in the current row.
-        for col in range(1, row):
-            # 6. Calculate this coefficient from the preceding coefficient.
-            answer *= row - col
-            answer //= col
-
-            # 7. Add the calculated coefficient to the current row.
-            row_result.append(answer)
-
-        # 8. Add the completed row to the triangle.
+        # 4. Add the completed row to the triangle.
         result.append(row_result)
 
-    # 9. Return the complete Pascal's Triangle.
+    # 5. Return the complete Pascal's Triangle.
     return result
 
 
