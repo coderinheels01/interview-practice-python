@@ -37,6 +37,9 @@ Whenever I ask to add an "Approach" to a solution:
    the numbered steps in the approach.
 7. Keep every complexity claim accurate for the implementation. Mention when the
    implementation does not satisfy a complexity requirement from the prompt.
+8. Incorporate all applicable docstring improvements from earlier
+   recommendations for the function, including important edge-case behavior,
+   mutation behavior, assumptions, and language-specific considerations.
 
 ## Test-case format
 
