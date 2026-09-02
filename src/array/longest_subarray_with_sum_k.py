@@ -116,7 +116,6 @@ def longest_subarray_with_sum_k_optimized(nums: list[int], k: int) -> int:
     # Step 2: Traverse the array while maintaining its running prefix sum.
     for index in range(n):
         current_sum += nums[index]
-        print(f"Hash map before lookup: {prefix_sum}")
 
         # Step 3: Handle a matching subarray that begins at index 0.
         if current_sum == k:
@@ -130,7 +129,6 @@ def longest_subarray_with_sum_k_optimized(nums: list[int], k: int) -> int:
         # Step 5: Preserve the earliest index for each distinct prefix sum.
         if current_sum not in prefix_sum:
             prefix_sum[current_sum] = index
-        print(f"Hash map after update: {prefix_sum}")
 
     # Step 6: Return 0 when no match exists, otherwise the longest length.
     return max_len

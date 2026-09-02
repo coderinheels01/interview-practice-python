@@ -76,7 +76,8 @@ def max_profit(prices: list[int]) -> int:
             buying_price_index = selling_price_index
         else:
             max_profit = max(max_profit, current_profit)
-            selling_price_index += 1
+
+        selling_price_index += 1
 
     # 5. Return the best profit, or 0 when no profitable trade exists.
     return max_profit
@@ -155,59 +156,59 @@ def max_profit2(prices: list[int]) -> int:
 
 
 def solve() -> None:
-    # prices = [7, 1, 5, 3, 6, 4]
-    #
-    # expected = 5
-    # result = max_profit(prices)
-    #
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    prices = [7, 1, 5, 3, 6, 4]
 
-    # prices = [7, 6, 4, 3, 1]
-    #
-    # expected = 0
-    # result = max_profit(prices)
-    #
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    expected = 5
+    result = max_profit(prices)
 
-    # prices = [1]
-    #
-    # expected = 0
-    # result = max_profit(prices)
-    #
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
-    # prices = [3, 3, 3, 3]
-    #
-    # expected = 0
-    # result = max_profit(prices)
-    #
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    prices = [7, 6, 4, 3, 1]
 
-    # prices = [1, 2, 3, 4, 5]
-    #
-    # expected = 4
-    # result = max_profit(prices)
-    #
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    expected = 0
+    result = max_profit(prices)
 
-    # prices = [2, 4, 1, 10]
-    #
-    # expected = 9
-    # result = max_profit(prices)
-    #
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [1]
+
+    expected = 0
+    result = max_profit(prices)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [3, 3, 3, 3]
+
+    expected = 0
+    result = max_profit(prices)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [1, 2, 3, 4, 5]
+
+    expected = 4
+    result = max_profit(prices)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    prices = [2, 4, 1, 10]
+
+    expected = 9
+    result = max_profit(prices)
+
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
     prices: list[int] = [7, 1, 5, 3, 6, 4]
 
