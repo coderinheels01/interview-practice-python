@@ -229,15 +229,16 @@ def count_subsequences_with_sum(nums: list[int], target: int) -> int:
            a count for each (index, subset_sum) pair. A repeated pair returns
            its saved count without executing the helper body again. Each outer
            call creates a fresh cache for its nums and target, which must stay
-           unchanged during the search. Each uncached call owns its local count.
-        2. At a leaf, return one if the sum matches, otherwise zero.
-        3. Include the current element and add the count from the next index.
-        4. Restore the sum to exclude that element, then add the count from
-           the next index. The two branches represent disjoint selections,
+           unchanged during the search.
+        2. At a leaf, return 1 directly if the sum matches, otherwise return 0.
+        3. Add the current element to subset_sum, recurse to the next index,
+           and store the inclusion branch's count in left.
+        4. Subtract the current element to restore subset_sum, recurse to the
+           next index, and store the exclusion branch's count in right. The two branches represent disjoint selections,
            so adding their counts neither misses nor double-counts positions.
            Do not stop at an intermediate match or overshoot: zeros and
            negative values can create additional matching selections.
-        5. Return the combined count; @cache saves it for this argument pair.
+        5. Return left + right; @cache saves this total for the argument pair.
            Each parent adds that count separately, so reusing a cached result
            still counts different position selections separately. No actual
            subsequence lists are stored.
@@ -271,7 +272,8 @@ def count_subsequences_with_sum(nums: list[int], target: int) -> int:
 
     Space Complexity:
         O(S + n): the cache stores S argument pairs and counts, while the
-        recursion stack has depth O(n). This is O(n * (A + 1)), or O(n**2)
+        recursion stack has depth O(n), with constant local state per call
+        (index, subset_sum, left, and right). This is O(n * (A + 1)), or O(n**2)
         with the stated element bounds. No subsequence lists are stored.
     """
     # Step 1: Set up the input size and a fresh cache for this search.
@@ -280,21 +282,20 @@ def count_subsequences_with_sum(nums: list[int], target: int) -> int:
     # Step 1: Reuse the saved count whenever (index, subset_sum) repeats.
     @cache
     def count_subsequences(index: int, subset_sum: int) -> int:
-        count: int = 0
         # Step 2: Each matching leaf contributes exactly one selection.
         if index >= size:
             if subset_sum == target:
-                count += 1
-            return count
+                return 1
+            return 0
 
-        # Step 3: Count selections that include this position.
+        # Step 3: Store the count including this position in left.
         subset_sum += nums[index]
-        count += count_subsequences(index=index + 1, subset_sum=subset_sum)
-        # Step 4: Restore the sum and count selections excluding it.
+        left: int = count_subsequences(index=index + 1, subset_sum=subset_sum)
+        # Step 4: Restore the sum and store the exclusion count in right.
         subset_sum -= nums[index]
-        count += count_subsequences(index=index + 1, subset_sum=subset_sum)
-        # Step 5: Return both branch counts; @cache remembers this result.
-        return count
+        right: int = count_subsequences(index=index + 1, subset_sum=subset_sum)
+        # Step 5: Add left and right; @cache remembers the combined count.
+        return left + right
 
     return count_subsequences(index=0, subset_sum=0)
 
