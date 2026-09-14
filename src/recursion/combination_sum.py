@@ -103,16 +103,24 @@ def combination_sum(nums: list[int], target: int) -> list[list[int]]:
         of depth n + d. Copying successful combinations contributes L work.
         The fit check and early return can make the actual search much smaller.
 
-        Example: O(2**(n + d) + L) is 
+        Example: O(2**(n + d) + L) is
                  nums=[2, 3, 5], target=7 gives n=3 and d=7 // 2=3.
 
 
     Space Complexity:
         O(n + d) auxiliary space: the recursion stack has depth O(n + d),
         and the shared working combination contains at most d elements.
+        Here n is the number of candidates and d is target // min(nums).
+        A single path can nest up to n skip calls and d include calls.
+        Parent calls remain on the stack until their children return, so both
+        kinds of calls use space. The working list adds O(d) space, which
+        keeps the combined auxiliary bound at O(n + d).
         Saved copies take O(L) space, so total space is O(n + d + L).
         Since target is positive, every returned combination is nonempty;
         L also bounds the number of result-list references.
+
+    https://www.youtube.com/watch?v=OyZFFqQtu98&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=10
+    
     """
     # Step 1: Initialize the candidate count and output.
     size: int = len(nums)
