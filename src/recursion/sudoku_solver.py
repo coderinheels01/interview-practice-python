@@ -135,6 +135,9 @@ def solve_sudoku(board: list[list[str]]) -> None:
         the recursion stack holds at most E + 1 active filling calls. The
         validity helper uses constant additional space. All calls share the
         input board, and the solution is written in place without copying it.
+
+    https://www.youtube.com/watch?v=FWAIf_EVUKE&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=17
+
     """
 
     def is_valid(row: int, col: int, num_to_fill: str) -> bool:
