@@ -101,6 +101,19 @@ def palindrome_partitioning(s: str) -> list[list[str]]:
         booleans. The recursion stack and working partition use O(n) space;
         substrings along the current path cover at most n characters in total.
         Unlike the uncached version, the cache adds quadratic auxiliary memory.
+
+        Cache example: for s="abc" (n=3), the possible (start, end) pairs are:
+            start=0: (0,0), (0,1), (0,2) -> 3 ranges
+            start=1:        (1,1), (1,2) -> 2 ranges
+            start=2:               (2,2) -> 1 range
+        There are 3 + 2 + 1 = 6 entries, each storing an index pair and a
+        boolean result. In general, the count is n + (n - 1) + ... + 1,
+        which equals n(n + 1) / 2 and grows quadratically.
+        This uses addition, not factorial multiplication. For n=4:
+            Substring ranges: 4 + 3 + 2 + 1 = 10
+            Factorial:        4 * 3 * 2 * 1 = 24
+        We add the separate groups of ranges starting at each index; we are
+        not multiplying choices to construct permutations.
     """
     # Step 1: Initialize the output and shared working partition.
     result: list[list[str]] = []
