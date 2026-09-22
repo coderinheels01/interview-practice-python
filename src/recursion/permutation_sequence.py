@@ -80,13 +80,44 @@ def permutation_sequence(n: int, k: int) -> str:
         by the constraints. There are n - 1 loop iterations. Removing a number
         with pop(bucket_index) can shift every later number, taking O(n) time
         per iteration in the worst case. These shifts total O(n**2).
+
+        For example, when k = 1, each selection removes the first number:
+            [1, 2, 3, 4] -> remove 1 -> shift 3 elements
+            [2, 3, 4]    -> remove 2 -> shift 2 elements
+            [3, 4]       -> remove 3 -> shift 1 element
+
+        For n numbers, the total shifts in this worst case are:
+            (n - 1) + (n - 2) + ... + 1
+            = n * (n - 1) / 2
+            = (n**2 - n) / 2
+        Ignoring constant factors and the lower-order term gives O(n**2).
+        Although there is only one loop, pop() does additional work inside it.
+
         Factorial is computed once and reused through division. Creating nums
         and converting/joining the n single-digit numbers take O(n) time.
 
     Space Complexity:
-        O(n). nums and kth_permutation together hold n numbers. Converting
-        the numbers and joining them also require O(n) space, including the
-        returned string. There is no recursion stack or list of all n! orders.
+        O(n), including the output string.
+        1. nums and kth_permutation use O(n) space. During the loop, each
+           number removed from nums is added to kth_permutation, so together
+           they hold n numbers. For n = 4, k = 9:
+               nums            kth_permutation
+               [1, 2, 3, 4]    []                 -> 4 numbers total
+               [1, 3, 4]       [2]                -> 4 numbers total
+               [1, 4]          [2, 3]             -> 4 numbers total
+               [4]             [2, 3, 1]          -> 4 numbers total
+           Appending the final number leaves an extra reference in nums,
+           making n + 1 references in total. This is still O(n). Any spare
+           capacity allocated by the lists also fits within O(n) space.
+        2. Converting the numbers to strings and joining them uses O(n) space.
+           Each number is a single digit under the constraints, so the output
+           has n characters. For example, "2314" has four characters. The
+           temporary digit strings used by join also fit within O(n) space.
+        3. The remaining scalar variables use O(1) space under the problem's
+           small numeric constraints. There is no recursion stack.
+
+        Total: O(n) + O(n) + O(1) = O(n).
+        The function stores one permutation, not all n! permutations.
     """
     # 1. Prepare sorted choices and convert k to a zero-based rank.
     nums: list[int] = list(range(1, n + 1))
