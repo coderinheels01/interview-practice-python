@@ -121,7 +121,7 @@ def permutation_sequence(n: int, k: int) -> str:
     """
     # 1. Prepare sorted choices and convert k to a zero-based rank.
     nums: list[int] = list(range(1, n + 1))
-    kth_permutation: list[int] = []
+    kth_permutation: list[str] = []
     new_k: int = k - 1
 
     # 2. Compute the initial permutation count once.
@@ -133,15 +133,15 @@ def permutation_sequence(n: int, k: int) -> str:
         rows_per_bucket: int = permutation // numbers_of_buckets
         bucket_index: int = new_k // rows_per_bucket
         # 4. Select the next number and remove it from the available choices.
-        kth_permutation.append(nums.pop(bucket_index))
+        kth_permutation.append(str(nums.pop(bucket_index)))
         # 5. Continue with the rank and permutation count inside this bucket.
         new_k = new_k % rows_per_bucket
         permutation = rows_per_bucket
 
     # 6. Append the only remaining number and build the answer string.
-    kth_permutation.append(nums[0])
+    kth_permutation.append(str(nums[0]))
 
-    return "".join(str(number) for number in kth_permutation)
+    return "".join(kth_permutation)
 
 
 def solve() -> None:
