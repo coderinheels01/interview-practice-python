@@ -16,6 +16,11 @@ annotations, mutation behavior, time complexity, and space complexity. Do not
 update, rewrite, refactor, optimize, or fix the code directly. Explain suggested
 changes in the chat only, and clearly state that no files were changed.
 
+Only recommend actionable changes to the current implementation. Do not present
+things I already do correctly as recommendations, including suggestions to
+"keep" existing behavior. If there are no actionable improvements, say so
+instead of padding the recommendations with confirmations of correct choices.
+
 ## Approach requests
 
 Whenever I ask to add an "Approach" to a solution:
