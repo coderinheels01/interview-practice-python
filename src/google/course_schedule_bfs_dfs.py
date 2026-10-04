@@ -117,7 +117,6 @@ def course_scheudle_dfs(
         course_map[course] = []
         return True
 
-    print(f"number_of_courses {number_of_courses}")
     for c in range(number_of_courses):
         if not dfs(c):
             return False
