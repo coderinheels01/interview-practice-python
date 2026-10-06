@@ -22,6 +22,8 @@ endWord.length == beginWord.length
 All words consist of lowercase English letters only
 beginWord != endWord
 All words in wordList are unique
+
+https://www.youtube.com/watch?v=tRPda0rcf8E&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=29
 """
 
 import string
@@ -67,7 +69,7 @@ def word_ladder_bfs(
     visited: set[str] = {begin_word}
 
     # Track each word's parent so we can reconstruct the path at the end
-    parents: dict[str, str] = dict()
+    parents: dict[str, str] = {}
 
     count: int = 0
 
@@ -134,7 +136,7 @@ def word_ladder_bfs_space_optimized(
             return [path, len(path)]
 
         for neighbor in neighbors[word]:
-            if neighbor in word_list and neighbor not in visited:
+            if neighbor not in visited:
                 visited.add(neighbor)
                 queue.append(path + [neighbor])
 
