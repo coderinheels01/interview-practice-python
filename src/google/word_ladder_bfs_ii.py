@@ -330,6 +330,144 @@ def word_ladder_bfs_paths(
     return paths, len(paths[0]) - 1
 
 
+def word_ladder_bfs_backtracking(
+    begin_word: str, end_word: str, word_list: list[str]
+) -> tuple[list[list[str]], int]:
+    """Return every shortest word ladder and its transformation count.
+
+    Args:
+        begin_word: Starting lowercase word, which need not be in word_list.
+        end_word: Distinct target word of the same length.
+        word_list: Unique lowercase words with the same length as begin_word.
+            The input list is not modified; a separate membership set is built.
+
+    Returns:
+        A tuple (paths, transformations). Each path includes both endpoints;
+        transformations counts changed letters along the path, not its words.
+        Path ordering is unspecified. Return ([], 0) for an absent or
+        unreachable target.
+
+    Approach:
+        Breadth-First Search (BFS) followed by DFS backtracking.
+
+        1. Initialize a FIFO queue with begin_word and record its step as 1.
+           Build a set of allowed words including the start. Reject a target
+           absent from that set. steps serves as both a distance map and a
+           discovery record; its values count words, starting at one.
+        2. Pop words in BFS order. Stop when the target is popped: every word
+           in the preceding distance layer has already been processed, so
+           all possible shortest predecessors have known distances.
+        3. Generate neighbors on demand by replacing each position with each
+           lowercase letter. Enqueue allowed words only on first discovery
+           and record the current step plus one. Unit-weight edges and FIFO
+           order ensure this first distance is the shortest. No adjacency
+           list or parent map is stored. Unchanged candidates are already
+           in steps and therefore are not enqueued again.
+        4. Before reconstructing, reject a target missing from steps. Being
+           present in the dictionary does not mean it is reachable.
+        5. Reconstruct backward from the target using DFS. When the start is
+           reached, save path[::-1], a new list in start-to-target order.
+           Copying prevents later backtracking from changing a saved result.
+        6. Generate one-letter predecessor candidates and follow only words
+           whose recorded step is exactly one less than the current word's.
+           Append a predecessor, recurse, then pop it to restore the shared
+           path before exploring another choice. Distances strictly decrease,
+           preventing cycles and excluding longer paths. A word may be used
+           by multiple reconstruction branches; do not globally mark it visited.
+        7. Start reconstruction with [end_word]. Return every collected path
+           and len(paths[0]) - 1 transformations, or ([], 0) if none exist.
+
+        Example: hot -> cog with hot, dot, dog, lot, log, cog available.
+        BFS records hot:1, dot:2, lot:2, dog:3, log:3, cog:4. Although cog is
+        enqueued only once, DFS can reconstruct through both dog and log:
+        hot -> dot -> dog -> cog and hot -> lot -> log -> cog. Both take
+        three transformations. Parents are recovered from distances rather
+        than recorded when BFS discovers cog.
+
+    Time Complexity:
+        Let W be the number of distinct words including the start, L the word
+        length, P the number of returned paths, D their length in words, and
+        R the number of DFS calls, counting repeated visits on different paths.
+        BFS takes O(26 * W * L^2) expected time: each word tries 26 * L
+        candidates, and slicing, concatenating, and hashing cost O(L).
+        DFS takes O(26 * R * L^2 + P * D), including copying completed paths.
+        Total: O((W + R) * L^2 + P * D), with 26 treated as a constant and
+        expected hash-table operations. On successful searches R <= 1 + P * D.
+        Enumerating all shortest paths can require exponential output; DFS
+        does not visit each word just once.
+
+    Space Complexity:
+        O(W * L + D * L + P * D) including output. The queue and steps can
+        retain O(W) generated length-L strings; the membership set stores
+        word references. Recursive frames retain up to O(D) candidate strings
+        of length L, while the shared path holds O(D) references. Saved paths
+        contain O(P * D) references, not fresh copies of every word string.
+        This avoids storing a full graph or all partial paths in the BFS queue.
+        Recursive reconstruction can hit Python's recursion limit for long
+        ladders; the BFS itself is iterative.
+
+    https://www.youtube.com/watch?v=AD4SFl7tu7I&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=31
+
+    """
+
+    # 1. Initialize the queue, step map, and allowed-word set.
+    queue: deque[str] = deque([begin_word])
+    steps: dict[str, int] = {begin_word: 1}
+    words: set[str] = set(word_list)
+    words.add(begin_word)
+
+    if end_word not in words:
+        return [], 0
+
+    # 2. Process words in increasing distance until the target is popped.
+    while queue:
+        word: str = queue.popleft()
+        next_step: int = steps[word] + 1
+
+        if word == end_word:
+            break
+        # 3. Generate neighbors and record only their first discovery.
+        for index in range(len(word)):
+            for char in string.ascii_lowercase:
+                next_word: str = word[:index] + char + word[index + 1 :]
+                if next_word in words and next_word not in steps:
+                    queue.append(next_word)
+                    steps[next_word] = next_step
+
+    paths: list[list[str]] = []
+
+    # 4. A listed target may still be unreachable.
+    if end_word not in steps:
+        return [], 0
+
+    def dfs(word: str, path: list[str]) -> None:
+
+        # 5. Copy a complete backward path into forward order.
+        if word == begin_word:
+            paths.append(path[::-1])
+            return
+
+        # 6. Follow every predecessor one step closer; choose, explore, undo.
+        step: int = steps[word]
+
+        for index in range(len(word)):
+            for char in string.ascii_lowercase:
+                prev_word: str = word[:index] + char + word[index + 1 :]
+
+                if prev_word in steps and steps[prev_word] + 1 == step:
+                    path.append(prev_word)
+                    dfs(word=prev_word, path=path)
+                    path.pop()
+
+    # 7. Reconstruct all shortest paths and return their transformation count.
+    dfs(word=end_word, path=[end_word])
+
+    if not paths:
+        return [], 0
+
+    return paths, len(paths[0]) - 1
+
+
 def solve() -> None:
     begin_word: str = "hot"
     end_word: str = "cog"
@@ -910,6 +1048,297 @@ def solve() -> None:
         3,
     )
     result: tuple[list[list[str]], int] = word_ladder_bfs_parents(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming implementation: two shortest transformation paths.
+    begin_word: str = "hot"
+    end_word: str = "cog"
+    word_list: list[str] = ["hot", "dot", "dog", "lot", "log", "cog"]
+    expected: tuple[list[list[str]], int] = (
+        [["hot", "dot", "dog", "cog"], ["hot", "lot", "log", "cog"]],
+        3,
+    )
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Single-letter direct transformation.
+    begin_word: str = "a"
+    end_word: str = "z"
+    word_list: list[str] = ["z"]
+    expected: tuple[list[list[str]], int] = ([["a", "z"]], 1)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Target missing from dictionary.
+    begin_word: str = "hit"
+    end_word: str = "cog"
+    word_list: list[str] = ["hot", "dot", "dog"]
+    expected: tuple[list[list[str]], int] = ([], 0)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Target listed but disconnected.
+    begin_word: str = "hit"
+    end_word: str = "cog"
+    word_list: list[str] = ["hot", "cog"]
+    expected: tuple[list[list[str]], int] = ([], 0)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Only target listed but more than one change required.
+    begin_word: str = "aaa"
+    end_word: str = "bbb"
+    word_list: list[str] = ["bbb"]
+    expected: tuple[list[list[str]], int] = ([], 0)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Starting word is also listed.
+    begin_word: str = "hit"
+    end_word: str = "hot"
+    word_list: list[str] = ["hit", "hot"]
+    expected: tuple[list[list[str]], int] = ([["hit", "hot"]], 1)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: One shortest chain.
+    begin_word: str = "hit"
+    end_word: str = "dog"
+    word_list: list[str] = ["hot", "dot", "dog"]
+    expected: tuple[list[list[str]], int] = ([["hit", "hot", "dot", "dog"]], 3)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Two shortest paths converge on target.
+    begin_word: str = "hot"
+    end_word: str = "cog"
+    word_list: list[str] = ["hot", "dot", "dog", "lot", "log", "cog"]
+    expected: tuple[list[list[str]], int] = (
+        [["hot", "dot", "dog", "cog"], ["hot", "lot", "log", "cog"]],
+        3,
+    )
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Two paths converge before the target.
+    begin_word: str = "aaa"
+    end_word: str = "bbc"
+    word_list: list[str] = ["aab", "aba", "abb", "bbb", "bbc"]
+    expected: tuple[list[list[str]], int] = (
+        [["aaa", "aab", "abb", "bbb", "bbc"], ["aaa", "aba", "abb", "bbb", "bbc"]],
+        4,
+    )
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Six shortest paths through three changing positions.
+    begin_word: str = "aaa"
+    end_word: str = "bbb"
+    word_list: list[str] = ["aab", "aba", "abb", "baa", "bab", "bba", "bbb"]
+    expected: tuple[list[list[str]], int] = (
+        [
+            ["aaa", "aab", "abb", "bbb"],
+            ["aaa", "aab", "bab", "bbb"],
+            ["aaa", "aba", "abb", "bbb"],
+            ["aaa", "aba", "bba", "bbb"],
+            ["aaa", "baa", "bab", "bbb"],
+            ["aaa", "baa", "bba", "bbb"],
+        ],
+        3,
+    )
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Direct path excludes longer alternatives.
+    begin_word: str = "hot"
+    end_word: str = "dot"
+    word_list: list[str] = ["hot", "dot", "lot", "log", "dog"]
+    expected: tuple[list[list[str]], int] = ([["hot", "dot"]], 1)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Longer detour excluded when shortest path is indirect.
+    begin_word: str = "aaa"
+    end_word: str = "bbb"
+    word_list: list[str] = ["aab", "abb", "bbb", "aac", "acc", "bcc", "bbc"]
+    expected: tuple[list[list[str]], int] = ([["aaa", "aab", "abb", "bbb"]], 3)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Dead-end branch does not block a valid path.
+    begin_word: str = "aaa"
+    end_word: str = "bbb"
+    word_list: list[str] = ["aac", "aab", "abb", "bbb"]
+    expected: tuple[list[list[str]], int] = ([["aaa", "aab", "abb", "bbb"]], 3)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Changing the first position.
+    begin_word: str = "aaaa"
+    end_word: str = "zaaa"
+    word_list: list[str] = ["zaaa"]
+    expected: tuple[list[list[str]], int] = ([["aaaa", "zaaa"]], 1)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Changing a middle position.
+    begin_word: str = "aaaa"
+    end_word: str = "aaza"
+    word_list: list[str] = ["aaza"]
+    expected: tuple[list[list[str]], int] = ([["aaaa", "aaza"]], 1)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Changing the final position.
+    begin_word: str = "aaaa"
+    end_word: str = "aaaz"
+    word_list: list[str] = ["aaaz"]
+    expected: tuple[list[list[str]], int] = ([["aaaa", "aaaz"]], 1)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Ten-character words differing only at the end.
+    begin_word: str = "aaaaaaaaaa"
+    end_word: str = "aaaaaaaaaz"
+    word_list: list[str] = ["aaaaaaaaaz"]
+    expected: tuple[list[list[str]], int] = ([["aaaaaaaaaa", "aaaaaaaaaz"]], 1)
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
+        begin_word, end_word, word_list
+    )
+
+    assert isinstance(result, tuple) and len(result) == 2
+    assert result[1] == expected[1]
+    assert sorted(result[0]) == sorted(expected[0])
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Competitive programming: Shuffled dictionary preserves all shortest paths.
+    begin_word: str = "hot"
+    end_word: str = "cog"
+    word_list: list[str] = ["cog", "log", "lot", "dog", "dot"]
+    expected: tuple[list[list[str]], int] = (
+        [["hot", "dot", "dog", "cog"], ["hot", "lot", "log", "cog"]],
+        3,
+    )
+    result: tuple[list[list[str]], int] = word_ladder_bfs_backtracking(
         begin_word, end_word, word_list
     )
 
