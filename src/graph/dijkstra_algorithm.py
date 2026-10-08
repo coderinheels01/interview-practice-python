@@ -84,6 +84,7 @@ Complexity:
         edges, and the heap may contain O(E) entries including stale entries.
 
     https://www.youtube.com/watch?v=EFg3u_E6eHU&t=43s
+    https://www.youtube.com/watch?v=3dINsjyfooY&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=34
 """
 
 import heapq
