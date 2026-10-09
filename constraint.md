@@ -45,6 +45,11 @@ Whenever I ask to add an "Approach" to a solution:
 8. Incorporate all applicable docstring improvements from earlier
    recommendations for the function, including important edge-case behavior,
    mutation behavior, assumptions, and language-specific considerations.
+9. Uncomment all existing test blocks in the solution's `solve()` function,
+   including input setup, `expected`, `result`, assertions, and print statements,
+   so every test is active. Restore commented-out assertions as well, including
+   those inside previously commented-out blocks. Keep descriptive comments as
+   comments and leave the solution implementation unchanged.
 
 ## Test-case format
 
