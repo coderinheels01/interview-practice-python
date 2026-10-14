@@ -58,7 +58,12 @@ def city_with_smallest_number_of_neighbors(
         has zero neighbors; for a single-city graph, returns 0.
 
     Approach:
-        Floyd-Warshall Algorithm followed by neighbor counting.
+        Floyd-Warshall Algorithm (all-pairs shortest paths).
+
+        Use Floyd-Warshall to compute the shortest distance between every
+        pair of cities. Then count each city's neighbors within the threshold
+        and select the city with the smallest count, breaking ties by the
+        greatest city index.
 
         1. Initialize the selected city to -1 and the best neighbor count
            to n, larger than any possible count of other cities. Allocate

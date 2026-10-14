@@ -29,10 +29,15 @@ Whenever I ask to add an "Approach" to a solution:
    `Approach` section. Explain the function's purpose, important behavior,
    parameters, return value, mutation behavior, and any assumptions or
    constraints needed to use it correctly.
-2. If the solution uses a recognized algorithm, include its canonical name in
-   the `Approach` section, such as `Boyer-Moore Majority Vote Algorithm` or
-   `Dutch National Flag Algorithm`. Do not invent an algorithm name when the
-   solution does not use a known named algorithm.
+2. Every time I ask to "add approach," identify whether the implementation
+   uses a recognized algorithm. If it does, begin the `Approach` section with
+   its canonical algorithm name, such as `Floyd-Warshall Algorithm`,
+   `Bellman-Ford Algorithm`, `Dijkstra's Algorithm`, `Breadth-First Search
+   (BFS)`, `Boyer-Moore Majority Vote Algorithm`, or `Dutch National Flag
+   Algorithm`. Name the algorithm actually used by the implementation, not
+   merely one that could solve the problem. If multiple recognized algorithms
+   are combined, name each relevant algorithm. Do not invent an algorithm
+   name when the solution does not use a known named algorithm.
 3. Explain the algorithm thoroughly in numbered, step-by-step order.
 4. Add a `Time Complexity` section that states the Big-O complexity and explains
    why it has that complexity based on the loops, operations, and input size.
