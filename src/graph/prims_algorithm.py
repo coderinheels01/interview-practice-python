@@ -107,6 +107,16 @@ def prims_algorithm(
             Prim's selects A--B and B--C for total tree weight 6, even though
             the resulting path from A to C is longer than the direct edge.
 
+        Note on disconnected graphs:
+            A disconnected graph has no spanning tree covering all vertices,
+            so it has no minimum spanning tree for the entire graph. Finding
+            an MST within each connected component produces a minimum
+            spanning forest. This implementation starts only at vertex 0,
+            so on disconnected input it returns only that component's tree.
+            After the search, len(min_spanning_tree) != vertices - 1 would
+            detect that a full spanning tree was not found. The practice
+            problem guarantees connectivity, so no such check is required.
+
     Time Complexity:
         O(V + E log(E + 1)), where E = len(edges). Initialization and building
         the adjacency list take O(V + E). Each accepted vertex's neighbors
