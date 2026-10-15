@@ -4,9 +4,9 @@ Design a disjoint set (also called union-find) data structure supporting:
 
     DisjointSet(n): Initialize n elements, numbered 0 through n - 1,
         each initially in its own set.
-    unionByRank(u, v): Merge the sets containing u and v using the rank
+    union_by_rank(u, v): Merge the sets containing u and v using the rank
         heuristic. Return None.
-    unionBySize(u, v): Merge the sets containing u and v using the size
+    union_by_size(u, v): Merge the sets containing u and v using the size
         heuristic. Return None.
     find(u, v): Return True if u and v are in the same set, otherwise False.
 
@@ -16,31 +16,31 @@ placeholder; constructing DisjointSet returns an instance.
 
 Example 1:
     Input:
-        operations = ["DisjointSet", "unionByRank", "unionBySize", "find", "find"]
+        operations = ["DisjointSet", "union_by_rank", "union_by_size", "find", "find"]
         arguments = [[5], [0, 1], [2, 3], [0, 1], [0, 3]]
     Output: [None, None, None, True, False]
     Explanation:
         ds = DisjointSet(5) initializes five separate sets.
-        ds.unionByRank(0, 1) merges the sets containing 0 and 1 using rank.
-        ds.unionBySize(2, 3) merges the sets containing 2 and 3 using size.
+        ds.union_by_rank(0, 1) merges the sets containing 0 and 1 using rank.
+        ds.union_by_size(2, 3) merges the sets containing 2 and 3 using size.
         ds.find(0, 1) returns True because both elements share a set.
         ds.find(0, 3) returns False because they are in different sets.
 
 Example 2:
     Input:
-        operations = ["DisjointSet", "unionBySize", "unionBySize", "find", "find"]
+        operations = ["DisjointSet", "union_by_size", "union_by_size", "find", "find"]
         arguments = [[3], [0, 1], [1, 2], [0, 2], [0, 1]]
     Output: [None, None, None, True, True]
     Explanation:
         ds = DisjointSet(3) initializes three separate sets.
-        ds.unionBySize(0, 1) merges the sets containing 0 and 1 using size.
-        ds.unionBySize(1, 2) merges the sets containing 1 and 2 using size.
+        ds.union_by_size(0, 1) merges the sets containing 0 and 1 using size.
+        ds.union_by_size(1, 2) merges the sets containing 1 and 2 using size.
         ds.find(0, 2) and ds.find(0, 1) both return True.
 
 Now Your Turn:
     Input:
-        operations = ["DisjointSet", "unionByRank", "unionBySize",
-                      "unionByRank", "find", "find"]
+        operations = ["DisjointSet", "union_by_rank", "union_by_size",
+                      "union_by_rank", "find", "find"]
         arguments = [[5], [0, 1], [3, 4], [1, 2], [0, 2], [1, 3]]
     Pick the correct output:
         A. [None, None, None, None, False, False]
@@ -51,7 +51,7 @@ Now Your Turn:
 Constraints:
     - 1 <= n <= 10**4.
     - 0 <= u, v < n.
-    - At most 5 * 10**4 calls total to unionByRank, unionBySize, and find.
+    - At most 5 * 10**4 calls total to union_by_rank, union_by_size, and find.
 
 https://www.youtube.com/watch?v=aBxjDBC4M1U&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=47
 
@@ -99,7 +99,7 @@ class DisjointSet:
             the other heuristic's metadata.
 
         Implementation note:
-            unionByRank currently mixes root1/root2 with the original node1/
+            union_by_rank currently mixes root1/root2 with the original node1/
             node2 after root lookup. All rank comparisons, parent attachments,
             and size updates in that method must use roots for the reasoning
             above to hold. This documentation does not change that code.
@@ -127,7 +127,7 @@ class DisjointSet:
 
     Space Complexity:
         O(n) persistent space for three arrays of n entries. Recursive
-        _findParent calls additionally use O(h + 1) temporary stack space,
+        _find_parent calls additionally use O(h + 1) temporary stack space,
         where h is the traversed depth. For standard consistently balanced
         union-find h is O(log n); for a general valid parent forest it can
         be O(n). Total space including the arrays remains O(n). Deep chains
@@ -144,16 +144,16 @@ class DisjointSet:
         self.rank = [0] * self.vertices
         self.size = [1] * self.vertices
 
-    def _findParent(self, node: int) -> int:
+    def _find_parent(self, node: int) -> int:
         if self.parents[node] == node:
             return node
-        self.parents[node] = self._findParent(self.parents[node])
+        self.parents[node] = self._find_parent(self.parents[node])
 
         return self.parents[node]
 
-    def unionByRank(self, node1: int, node2: int) -> None:
-        root1 = self._findParent(node=node1)
-        root2 = self._findParent(node=node2)
+    def union_by_rank(self, node1: int, node2: int) -> None:
+        root1 = self._find_parent(node=node1)
+        root2 = self._find_parent(node=node2)
 
         if root1 == root2:
             return
@@ -168,9 +168,9 @@ class DisjointSet:
             self.parents[root1] = node2
             self.size[node2] += self.size[root1]
 
-    def unionBySize(self, node1: int, node2: int) -> None:
-        root1 = self._findParent(node=node1)
-        root2 = self._findParent(node=node2)
+    def union_by_size(self, node1: int, node2: int) -> None:
+        root1 = self._find_parent(node=node1)
+        root2 = self._find_parent(node=node2)
 
         if root1 == root2:
             return
@@ -186,8 +186,8 @@ class DisjointSet:
             self.size[root2] += self.size[root1]
 
     def find(self, node1: int, node2: int) -> bool:
-        node1_parent: int = self._findParent(node=node1)
-        node2_parent: int = self._findParent(node=node2)
+        node1_parent: int = self._find_parent(node=node1)
+        node2_parent: int = self._find_parent(node=node2)
 
         return node1_parent == node2_parent
 
@@ -197,8 +197,8 @@ def solve() -> None:
     expected: list[bool | None] = [None, None, None, True, False]
     result: list[bool | None] = [
         None,
-        ds.unionByRank(0, 1),
-        ds.unionBySize(2, 3),
+        ds.union_by_rank(0, 1),
+        ds.union_by_size(2, 3),
         ds.find(0, 1),
         ds.find(0, 3),
     ]
@@ -211,8 +211,8 @@ def solve() -> None:
     ds = DisjointSet(1)
     expected = [None, None, True]
     result = [
-        ds.unionByRank(0, 0),
-        ds.unionBySize(0, 0),
+        ds.union_by_rank(0, 0),
+        ds.union_by_size(0, 0),
         ds.find(0, 0),
     ]
 
@@ -237,8 +237,8 @@ def solve() -> None:
     ds = DisjointSet(3)
     expected = [None, None, True, True]
     result = [
-        ds.unionBySize(0, 1),
-        ds.unionBySize(1, 2),
+        ds.union_by_size(0, 1),
+        ds.union_by_size(1, 2),
         ds.find(0, 2),
         ds.find(0, 1),
     ]
@@ -251,9 +251,9 @@ def solve() -> None:
     ds = DisjointSet(5)
     expected = [None, None, None, True, False]
     result = [
-        ds.unionByRank(0, 1),
-        ds.unionBySize(3, 4),
-        ds.unionByRank(1, 2),
+        ds.union_by_rank(0, 1),
+        ds.union_by_size(3, 4),
+        ds.union_by_rank(1, 2),
         ds.find(0, 2),
         ds.find(1, 3),
     ]
@@ -266,9 +266,9 @@ def solve() -> None:
     ds = DisjointSet(4)
     expected = [None, None, None, True, True]
     result = [
-        ds.unionByRank(0, 1),
-        ds.unionByRank(2, 3),
-        ds.unionByRank(1, 3),
+        ds.union_by_rank(0, 1),
+        ds.union_by_rank(2, 3),
+        ds.union_by_rank(1, 3),
         ds.find(0, 2),
         ds.find(2, 3),
     ]
@@ -281,9 +281,9 @@ def solve() -> None:
     ds = DisjointSet(4)
     expected = [None, None, None, True, True]
     result = [
-        ds.unionBySize(0, 1),
-        ds.unionBySize(2, 3),
-        ds.unionBySize(1, 3),
+        ds.union_by_size(0, 1),
+        ds.union_by_size(2, 3),
+        ds.union_by_size(1, 3),
         ds.find(0, 2),
         ds.find(2, 3),
     ]
@@ -296,9 +296,9 @@ def solve() -> None:
     ds = DisjointSet(3)
     expected = [None, None, None, True, False]
     result = [
-        ds.unionByRank(0, 1),
-        ds.unionByRank(1, 0),
-        ds.unionByRank(0, 1),
+        ds.union_by_rank(0, 1),
+        ds.union_by_rank(1, 0),
+        ds.union_by_rank(0, 1),
         ds.find(0, 1),
         ds.find(0, 2),
     ]
@@ -311,8 +311,8 @@ def solve() -> None:
     ds = DisjointSet(3)
     expected = [None, None, True, False]
     result = [
-        ds.unionBySize(0, 1),
-        ds.unionBySize(1, 0),
+        ds.union_by_size(0, 1),
+        ds.union_by_size(1, 0),
         ds.find(0, 1),
         ds.find(0, 2),
     ]
@@ -325,9 +325,9 @@ def solve() -> None:
     ds = DisjointSet(5)
     expected = [None, None, None, True, False]
     result = [
-        ds.unionByRank(0, 1),
-        ds.unionBySize(2, 3),
-        ds.unionBySize(1, 3),
+        ds.union_by_rank(0, 1),
+        ds.union_by_size(2, 3),
+        ds.union_by_size(1, 3),
         ds.find(0, 2),
         ds.find(0, 4),
     ]
@@ -340,9 +340,9 @@ def solve() -> None:
     ds = DisjointSet(2)
     expected = [None, None, 1]
     result = [
-        ds.unionByRank(0, 1),
-        ds.unionByRank(0, 1),
-        ds.rank[ds._findParent(0)],
+        ds.union_by_rank(0, 1),
+        ds.union_by_rank(0, 1),
+        ds.rank[ds._find_parent(0)],
     ]
 
     assert result == expected
@@ -353,8 +353,8 @@ def solve() -> None:
     ds = DisjointSet(3)
     expected = [1, 1]
     result = [
-        ds.size[ds._findParent(0)],
-        ds.size[ds._findParent(2)],
+        ds.size[ds._find_parent(0)],
+        ds.size[ds._find_parent(2)],
     ]
 
     assert result == expected
@@ -365,10 +365,10 @@ def solve() -> None:
     ds = DisjointSet(3)
     expected = [None, None, None, 3]
     result = [
-        ds.unionBySize(0, 1),
-        ds.unionBySize(0, 1),
-        ds.unionBySize(0, 2),
-        ds.size[ds._findParent(0)],
+        ds.union_by_size(0, 1),
+        ds.union_by_size(0, 1),
+        ds.union_by_size(0, 2),
+        ds.size[ds._find_parent(0)],
     ]
 
     assert result == expected
@@ -379,10 +379,10 @@ def solve() -> None:
     ds = DisjointSet(4)
     expected = [None, None, None, 4]
     result = [
-        ds.unionByRank(0, 1),
-        ds.unionBySize(2, 3),
-        ds.unionBySize(0, 2),
-        ds.size[ds._findParent(3)],
+        ds.union_by_rank(0, 1),
+        ds.union_by_size(2, 3),
+        ds.union_by_size(0, 2),
+        ds.size[ds._find_parent(3)],
     ]
 
     assert result == expected
@@ -393,10 +393,10 @@ def solve() -> None:
     ds = DisjointSet(4)
     expected = [None, None, None, True, True]
     result = [
-        ds.unionBySize(0, 1),
-        ds.unionBySize(0, 2),
-        ds.unionBySize(3, 0),
-        ds._findParent(0) == ds._findParent(3),
+        ds.union_by_size(0, 1),
+        ds.union_by_size(0, 2),
+        ds.union_by_size(3, 0),
+        ds._find_parent(0) == ds._find_parent(3),
         ds.parents[3] == 0,
     ]
 
@@ -409,7 +409,7 @@ def solve() -> None:
     expected = [False, None, True, False]
     result = [
         ds.find(0, 9999),
-        ds.unionByRank(0, 9999),
+        ds.union_by_rank(0, 9999),
         ds.find(0, 9999),
         ds.find(5000, 9999),
     ]
@@ -418,10 +418,10 @@ def solve() -> None:
     print(f"Expected: {expected}")
     print(f"Result: {result}")
 
-    # Maximum elements and exactly 50000 public operations using unionByRank.
+    # Maximum elements and exactly 50000 public operations using union_by_rank.
     ds = DisjointSet(10000)
     for node in range(1, 10000):
-        ds.unionByRank(node, node - 1)
+        ds.union_by_rank(node, node - 1)
     expected = True
     result = all([ds.find(0, 9999) for _ in range(40001)])
 
@@ -429,10 +429,10 @@ def solve() -> None:
     print(f"Expected: {expected}")
     print(f"Result: {result}")
 
-    # Maximum elements and exactly 50000 public operations using unionBySize.
+    # Maximum elements and exactly 50000 public operations using union_by_size.
     ds = DisjointSet(10000)
     for node in range(1, 10000):
-        ds.unionBySize(node, node - 1)
+        ds.union_by_size(node, node - 1)
     expected = True
     result = all([ds.find(0, 9999) for _ in range(40001)])
 

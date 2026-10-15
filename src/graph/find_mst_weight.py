@@ -73,23 +73,23 @@ class DisjointSet:
         self.parents = list(range(self.vertices))
         self.ranks = [0] * self.vertices
 
-    def _findParent(self, node: int) -> int:
+    def _find_parent(self, node: int) -> int:
         if self.parents[node] == node:
             return node
 
-        self.parents[node] = self._findParent(self.parents[node])
+        self.parents[node] = self._find_parent(self.parents[node])
 
         return self.parents[node]
 
     def find(self, node1: int, node2: int) -> bool:
-        root1: int = self._findParent(node=node1)
-        root2: int = self._findParent(node=node2)
+        root1: int = self._find_parent(node=node1)
+        root2: int = self._find_parent(node=node2)
 
         return root1 == root2
 
-    def unionByRank(self, node1: int, node2: int) -> None:
-        root1: int = self._findParent(node=node1)
-        root2: int = self._findParent(node=node2)
+    def union_by_rank(self, node1: int, node2: int) -> bool:
+        root1: int = self._find_parent(node=node1)
+        root2: int = self._find_parent(node=node2)
 
         if root1 == root2:
             return False
@@ -134,7 +134,7 @@ def find_mst_weight(vertices: int, adj: list[list[list[int]]]) -> int:
            MSTs, but the minimum total weight is unchanged.
         3. Initialize a disjoint set with each vertex in a separate component,
            the accumulated weight to 0, and the accepted-edge count to 0.
-        4. Examine sorted edges. unionByRank finds both roots using path
+        4. Examine sorted edges. union_by_rank finds both roots using path
            compression. If the roots match, it returns False: the endpoints
            are already connected, so accepting the edge would create a cycle.
            Otherwise, it attaches the lower-rank root under the higher-rank
@@ -154,7 +154,7 @@ def find_mst_weight(vertices: int, adj: list[list[list[int]]]) -> int:
             by weight minimizes the final total.
 
         Helper annotation note:
-            unionByRank currently declares -> None but returns a boolean.
+            union_by_rank currently declares -> None but returns a boolean.
             The conditional in this function uses that actual return value;
             the helper's annotation should be -> bool.
 
@@ -193,7 +193,7 @@ def find_mst_weight(vertices: int, adj: list[list[list[int]]]) -> int:
 
     for weight, from_node, to_node in edges:
         # 4. Merge only distinct components; an existing connection means a cycle.
-        if ds.unionByRank(node1=from_node, node2=to_node):
+        if ds.union_by_rank(node1=from_node, node2=to_node):
             # 5. Include the weight only when the edge is accepted.
             mst_weight += weight
             edges_used += 1
