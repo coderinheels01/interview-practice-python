@@ -56,7 +56,42 @@ Whenever I ask to add an "Approach" to a solution:
    those inside previously commented-out blocks. Keep descriptive comments as
    comments and leave the solution implementation unchanged.
 
+## Complexity explanations
+
+Whenever I ask for a time or space complexity explanation, explain it step by
+step as if teaching a junior engineer. Apply this style to complexity sections
+in requested approach documentation too.
+
+1. Define the input-size variables and use a small concrete example, such as an
+   n x n grid containing n² cells.
+2. Break the actual implementation into phases, including initialization,
+   loops, and relevant helper operations. Explain each phase's cost.
+3. Explain why fixed neighbor checks are constant work, why sequential phases
+   have costs that add, and why nested repeated work has costs that multiply
+   when applicable. Do not infer complexity from loop count alone.
+4. Define unfamiliar notation and terms, such as inverse Ackermann and
+   amortized time, in plain language when they arise. Distinguish precise
+   bounds from practical approximations.
+5. Combine the phase costs into the final Big-O bound. For space complexity,
+   identify the data structures and any recursion stack that use extra memory.
+6. Finish with a concise, interview-ready explanation of the complexity.
+
+For space explanations, show a concrete count of entries (for example, a 3 x 3
+grid creates 9 parent entries and 9 size entries). Explain why a temporary
+collection reset for each cell contributes only its maximum simultaneous size,
+not the sum of every allocation across the run. Distinguish "at most" from
+"exactly," explain why fixed bounds such as O(4) simplify to O(1), and show how
+the individual storage costs add before retaining the dominant Big-O term.
+State whether the input itself is excluded from additional space. Use these
+concrete, junior-friendly explanations in every requested Approach section's
+complexity documentation, not just in chat.
+
 ## Test-case format
+
+When tests fail, report the failing tests or results without explaining the
+cause, giving debugging hints, or suggesting fixes unless I explicitly ask.
+I want to debug the failures myself. When I ask to isolate failing tests,
+leave only one failing test active at a time and comment out the other tests.
 
 Write each test as a separate block with `expected` above `result`, followed by
 an assertion and output. Do not create a `test_cases` collection or loop over
