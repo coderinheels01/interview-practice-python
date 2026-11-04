@@ -114,6 +114,8 @@ def johnsons_algorithm(
         their memory is not multiplied by V. Excluding the required V-by-V
         output matrix and excluding the input, auxiliary space is O(V + E).
         The implementation uses no recursion.
+
+        https://www.youtube.com/watch?v=MV7EAD9zL64
     """
 
     # ---------------------------------------------------------
