@@ -142,7 +142,7 @@ def bellman_ford_algorithm(
             if distances[from_node] == 10**9:
                 continue
             # 4. Relax the edge in place and record any strict improvement.
-            if distances[from_node] + weight < distances[to_node]:
+            if distances[from_node] + weight < distances[to_node]: 
                 distances[to_node] = distances[from_node] + weight
                 updated = True
         # 5. Count the completed pass; no updates ends the loop early.

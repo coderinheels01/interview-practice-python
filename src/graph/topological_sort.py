@@ -71,7 +71,7 @@ def topological_sort_dfs(adj: list[list[int]]) -> list[int]:
         Use Depth-First Search (DFS) topological sorting via reverse postorder.
         1. Derive V from len(adj), initialize an empty result list, and create
            one visited flag per vertex, shared across all DFS calls.
-        2. On entering DFS, mark the vertex visited. Recursively explore each
+        2. On entering DFS, mark the vertex visit ed. Recursively explore each
            unvisited outgoing neighbor. Already visited neighbors are skipped
            to avoid repeatedly processing shared descendants.
         3. Append the current vertex only after exploring all its outgoing
