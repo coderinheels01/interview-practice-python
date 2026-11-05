@@ -39,6 +39,8 @@ Whenever I ask to add an "Approach" to a solution:
    are combined, name each relevant algorithm. Do not invent an algorithm
    name when the solution does not use a known named algorithm.
 3. Explain the algorithm thoroughly in numbered, step-by-step order.
+   Use simple language for someone who barely knows how to read code. Explain
+   what each step does and why, using small concrete examples where helpful.
 4. Add a `Time Complexity` section that states the Big-O complexity and explains
    why it has that complexity based on the loops, operations, and input size.
 5. Add a `Space Complexity` section that states the Big-O complexity and explains
