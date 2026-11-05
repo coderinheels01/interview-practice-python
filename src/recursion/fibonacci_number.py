@@ -85,13 +85,13 @@ def fibonacci_number(n: int) -> int:
 
 
 def solve() -> None:
-    # n: int = 2
-    # expected: int = 1
-    # result: int = fibonacci_number(n)
+    n: int = 2
+    expected: int = 1
+    result: int = fibonacci_number(n)
 
-    # assert result == expected
-    # print(f"Expected: {expected}")
-    # print(f"Result: {result}")
+    assert result == expected
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
 
     # Minimum input and zero base case.
     n: int = 0
