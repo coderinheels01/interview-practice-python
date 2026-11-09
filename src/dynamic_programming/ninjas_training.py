@@ -35,6 +35,8 @@ Constraints:
     - n == len(matrix)
     - Each row contains exactly 3 values.
     - 0 <= matrix[i][j] <= 1000
+
+https://www.youtube.com/watch?v=AE39gJYuRog&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=8
 """
 
 
