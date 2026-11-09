@@ -21,6 +21,9 @@ things I already do correctly as recommendations, including suggestions to
 "keep" existing behavior. If there are no actionable improvements, say so
 instead of padding the recommendations with confirmations of correct choices.
 
+Include relevant documentation when I request an Approach. Do not list missing
+documentation as a separate recommendation.
+
 ## Approach requests
 
 Whenever I ask to add an "Approach" to a solution:
