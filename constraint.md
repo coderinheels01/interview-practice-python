@@ -9,6 +9,9 @@ implementation exactly as written.
 
 ## Recommendation requests
 
+Do not recommend memoization or switching to dynamic programming. Those are
+my planned next steps; focus recommendations on the current implementation.
+
 Whenever I use the word "recommendation" followed by a function definition or
 function name, review that function and give recommendations based on relevant
 best practices, including correctness, edge cases, readability, naming, type
