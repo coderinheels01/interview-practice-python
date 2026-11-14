@@ -48,6 +48,8 @@ Source Notes:
     Numeric constraints and the full input/output format are not visible
     in the screenshots. The function accepts the grid directly; its
     dimensions provide R and C.
+
+https://www.youtube.com/watch?v=QGfn7JeXK54&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=15
 """
 
 
