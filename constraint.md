@@ -125,3 +125,7 @@ Whenever I ask to "make a file" for a coding problem:
 7. In that test case, put `expected` above `result`, then include an assertion
    and print both values.
 8. Add an `if __name__ == "__main__":` guard that calls `solve()`.
+9. Always include at least three extra examples in the question's module
+   docstring, in addition to the original example when provided. Label them
+   as added practice examples, and give each input, expected output, and a
+   short explanation. This also applies whenever I ask to create a question.
