@@ -75,6 +75,13 @@ input is excluded. Keep claims accurate for the actual implementation.
 
 ## Test-case format
 
+For recursion implementations, never add tests that exceed Python's default
+recursion-depth limit. In particular, do not add the minimum-coins case
+`nums = [2, 1], target = 10000` or equivalent deep-recursion cases. Choose
+boundary tests with manageable recursion depth instead; do not increase the
+recursion limit to run a test. This preference takes precedence over maximum
+input coverage when that coverage would require excessive recursion depth.
+
 When tests fail, report the failing tests or results without explaining the
 cause, giving debugging hints, or suggesting fixes unless I explicitly ask.
 I want to debug the failures myself. When I ask to isolate failing tests,
