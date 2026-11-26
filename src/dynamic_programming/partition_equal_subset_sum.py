@@ -9,7 +9,7 @@ Problem Statement:
 
 Example:
     Input: ARR = [2, 3, 3, 3, 4, 5]
-    Output: True
+    Output: True    
 
     The array can be partitioned into [2, 3, 5] and [3, 3, 4],
     each with sum 10.
