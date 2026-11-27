@@ -407,6 +407,90 @@ def unbounded_knapsack_tabulation_space_optimized(
     return prev_max_value_dp[capacity]
 
 
+def unbounded_knapsack_tabulation_single_array(
+    weights: list[int], values: list[int], capacity: int
+) -> int:
+    """Return the maximum value of unlimited items using one array.
+
+    Parameters:
+        weights: Nonempty list of positive integer item weights.
+        values: Positive integer values paired with weights by index.
+            Both lists must have equal length; sorting is not required.
+        capacity: Nonnegative integer maximum total weight allowed.
+
+    Returns:
+        The greatest total value without exceeding capacity. Each item type
+        can be reused, but items cannot be split. Unused space is allowed.
+        Return 0 for zero capacity or when no item fits.
+        Neither input list is modified.
+
+    Approach:
+        Bottom-Up Dynamic Programming (Tabulation) with Space Optimization.
+
+        1. Create max_value_dp for capacities 0 through capacity. Each entry
+           stores the best value within that weight limit. Reuse this same
+           array for every item type instead of storing separate rows.
+        2. Initialize the array using only the first item type. Multiply
+           remaining_amount // weights[0] by values[0]. For weight 3,
+           value 7, and capacity 10, three copies give 21 with one unit
+           unused. Positive values make taking as many as fit optimal here.
+           Zero capacity and capacities below the first weight get value 0.
+        3. Process item types starting at index 1 because item 0 is already
+           included. Visit capacities in increasing order. Before updating
+           a position, it still holds the answer from earlier item types;
+           smaller positions already include the current item type.
+        4. Read not_take from max_value_dp[remaining_amount] before replacing
+           it. This preserves the best value that excludes the current type.
+        5. Start take at 0. If the item fits, add its value to the entry at
+           remaining_amount - weights[index]. That smaller capacity has
+           already been processed in this pass, so it may include copies
+           of the current item. This permits unlimited reuse. Iterating
+           backward would prevent that reuse within the current pass.
+        6. Overwrite the current position with max(not_take, take), choosing
+           the more valuable alternative. For weights [5, 2], values [1, 4],
+           and capacity 8, processing weight 2 sets capacities 2, 4, 6, and
+           8 to values 4, 8, 12, and 16. Each update can use the previous
+           smaller update, so four copies of weight 2 are counted correctly.
+        7. Return max_value_dp[capacity] after processing every item type.
+           For weights [2, 4, 6], values [5, 11, 13], and capacity 10, the
+           answer is 27 from weights 4 + 4 + 2. With only one item type,
+           the answer comes directly from the initialized array.
+
+    Time Complexity:
+        O(n * (capacity + 1)), where n is the number of item types.
+        Initializing and updating the array takes constant work per capacity
+        for each item type.
+
+    Space Complexity:
+        O(capacity + 1) for max_value_dp, excluding the inputs.
+        The remaining variables use constant additional space.
+    """
+    # Step 1: Allocate one array of maximum values.
+    size: int = len(weights)
+    max_value_dp: list[int] = [0] * (capacity + 1)
+
+    # Step 2: Initialize values using copies of the first item.
+    for remaining_amount in range(capacity + 1):
+        max_value_dp[remaining_amount] = (remaining_amount // weights[0]) * values[0]
+
+    # Step 3: Process later items with capacities increasing.
+    for index in range(1, size):
+        for remaining_amount in range(capacity + 1):
+            # Step 4: Read the earlier-item answer before overwriting it.
+            not_take: int = max_value_dp[remaining_amount]
+            # Step 5: Include one copy using an already updated smaller capacity.
+            take: int = 0
+
+            if weights[index] <= remaining_amount:
+                take = values[index] + max_value_dp[remaining_amount - weights[index]]
+
+            # Step 6: Replace this position with the better alternative.
+            max_value_dp[remaining_amount] = max(not_take, take)
+
+    # Step 7: Read the best value within the full capacity.
+    return max_value_dp[capacity]
+
+
 def solve() -> None:
     # Sample from the question.
     weights = [2, 4, 6]
@@ -1414,6 +1498,276 @@ def solve() -> None:
     capacity = 8
     expected = 24
     result = unbounded_knapsack_tabulation_space_optimized(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Single-array tabulation: unlimited copies of each item.
+    weights = [2, 4, 6]
+    values = [5, 11, 13]
+    capacity = 10
+    expected = 27
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Zero capacity.
+    weights = [1, 3, 4]
+    values = [2, 7, 9]
+    capacity = 0
+    expected = 0
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Smallest positive inputs.
+    weights = [1]
+    values = [1]
+    capacity = 1
+    expected = 1
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Single item fits exactly.
+    weights = [3]
+    values = [7]
+    capacity = 3
+    expected = 7
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Single item does not fit.
+    weights = [3]
+    values = [7]
+    capacity = 2
+    expected = 0
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Single item reused exactly.
+    weights = [3]
+    values = [7]
+    capacity = 9
+    expected = 21
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Single item reused with unused space.
+    weights = [3]
+    values = [7]
+    capacity = 10
+    expected = 21
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # No item fits.
+    weights = [4, 6, 9]
+    values = [8, 15, 20]
+    capacity = 3
+    expected = 0
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Unsorted weights with mixed choices.
+    weights = [5, 2, 3]
+    values = [12, 5, 8]
+    capacity = 7
+    expected = 18
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Best item at beginning.
+    weights = [2, 3, 5]
+    values = [10, 4, 6]
+    capacity = 6
+    expected = 30
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Best item in middle.
+    weights = [3, 2, 5]
+    values = [4, 10, 6]
+    capacity = 6
+    expected = 30
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Best item at end.
+    weights = [3, 5, 2]
+    values = [4, 6, 10]
+    capacity = 6
+    expected = 30
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Duplicate weights with different values.
+    weights = [2, 2, 3]
+    values = [3, 5, 4]
+    capacity = 4
+    expected = 10
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Identical item types.
+    weights = [2, 2, 2]
+    values = [5, 5, 5]
+    capacity = 6
+    expected = 15
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Identical values with different weights.
+    weights = [4, 2, 3]
+    values = [5, 5, 5]
+    capacity = 6
+    expected = 15
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Exact filling is not required.
+    weights = [3, 5]
+    values = [10, 11]
+    capacity = 7
+    expected = 20
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Mixing types beats either alone.
+    weights = [3, 5]
+    values = [5, 9]
+    capacity = 8
+    expected = 14
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Best ratio alone does not give best packing.
+    weights = [3, 4]
+    values = [5, 7]
+    capacity = 6
+    expected = 10
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # High value item exceeds capacity.
+    weights = [2, 9, 3]
+    values = [4, 100, 5]
+    capacity = 6
+    expected = 12
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Capacity equals an available weight.
+    weights = [5, 2, 3]
+    values = [20, 5, 6]
+    capacity = 5
+    expected = 20
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Capacity just above an available weight.
+    weights = [5, 2, 3]
+    values = [20, 5, 6]
+    capacity = 6
+    expected = 20
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Repeated weight one.
+    weights = [1, 4, 6]
+    values = [3, 10, 15]
+    capacity = 8
+    expected = 24
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Several item types.
+    weights = [9, 7, 5, 3, 2]
+    values = [10, 9, 7, 5, 3]
+    capacity = 10
+    expected = 16
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Equal value alternatives.
+    weights = [2, 3]
+    values = [4, 6]
+    capacity = 6
+    expected = 12
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Many repeated choices.
+    weights = [2, 3, 5, 7]
+    values = [3, 5, 8, 12]
+    capacity = 60
+    expected = 102
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Large capacity.
+    weights = [1, 4]
+    values = [3, 10]
+    capacity = 5000
+    expected = 15000
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
+    assert result == expected, f"Expected {expected}, got {result}"
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
+
+    # Later item must be reused within the same pass.
+    weights = [5, 2]
+    values = [1, 4]
+    capacity = 8
+    expected = 16
+    result = unbounded_knapsack_tabulation_single_array(weights, values, capacity)
     assert result == expected, f"Expected {expected}, got {result}"
     print(f"Expected: {expected}")
     print(f"Result: {result}")
